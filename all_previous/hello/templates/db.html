@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {% extends "base.html" %}
 {% load staticfiles %}
 
@@ -18,4 +19,26 @@
 
 </div>
 
+=======
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block content %}
+  <div class="container">
+
+
+<h2>Page View Report</h2>
+
+
+<ul>
+
+{% for greeting in greetings %}
+    <li>{{ greeting.when }}</li>
+{% endfor %}
+
+</ul>
+
+</div>
+
+>>>>>>> dd3dd770488c8ba2e17cc5af9b2a6fc91623a108
 {% endblock %}
