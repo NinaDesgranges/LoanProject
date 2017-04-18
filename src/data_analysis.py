@@ -5,6 +5,7 @@ import numpy as np
 from bokeh.io import show
 # from bokeh.palettes import Spectral6, viridis, Blues9
 # from bokeh.sampledata import us_states
+import bokeh
 bokeh.sampledata.download()
 from bokeh.sampledata.us_states import data as sta
 from bokeh.plotting import figure, show, output_file
