@@ -50,7 +50,7 @@ def index():
         js_resources = INLINE.render_js()
         css_resources = INLINE.render_css()
 
-        script, div = da.templateUsMapPercAcceptedLoan()
+        # script, div = da.templateUsMapPercAcceptedLoan()
 
         # html = render_template(
         #     'new_index.html',
@@ -62,8 +62,8 @@ def index():
 
         return render_template(
             'ciao.html',
-            plot_script=script,
-            plot_div=div,
+            # plot_script=script,
+            # plot_div=div,
             js_resources=js_resources,
             css_resources=css_resources
         )
