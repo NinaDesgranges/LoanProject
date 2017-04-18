@@ -91,43 +91,43 @@ def index():
                                low=min(new_ds.perc_acc_loan.values), high=max(new_ds.perc_acc_loan.values))
 
         states = json.load(open(DATA + 'boundaries.json', 'r'))
-        # # states = us_states.data.copy()
-        # # states = sta.copy()
-        #
-        # # f = open(DATA + "boundaries.json", "w")
-        # # f.write(str(states))
-        # # f.close()
-        #
-        # # del states["HI"]
-        # # del states["AK"]
-        #
-        # state_xs = [states[code]["lons"] for code in states]
-        # state_ys = [states[code]["lats"] for code in states]
-        #
-        # source = ColumnDataSource(data=dict(
-        #     x=state_xs,
-        #     y=state_ys,
-        #     name=new_ds.index.get_values(),
-        #     rate=new_ds['perc_acc_loan'],
-        # ))
+        # states = us_states.data.copy()
+        # states = sta.copy()
 
-        # # output_file(TEMPLATE + "loan_perc_states_map.html", title="Loan Acceptance Rate")
-        #
-        # p = figure(title="Loan Acceptance Rate", toolbar_location="left",
-        #            plot_width=900, plot_height=573)
-        #
-        # p.patches('x', 'y', source=source,
-        #           fill_color={'field': 'rate', 'transform': cm},
-        #           fill_alpha=1, line_color="white", line_width=0.5)
-        #
-        # color_bar = ColorBar(color_mapper=cm,
-        #                      orientation='vertical',
-        #                      location=(0, 0))
-        #
-        # p.add_layout(color_bar, 'right')
-        #
-        # # grap component
-        # script, div = components(p)
+        # f = open(DATA + "boundaries.json", "w")
+        # f.write(str(states))
+        # f.close()
+
+        # del states["HI"]
+        # del states["AK"]
+
+        state_xs = [states[code]["lons"] for code in states]
+        state_ys = [states[code]["lats"] for code in states]
+
+        source = ColumnDataSource(data=dict(
+            x=state_xs,
+            y=state_ys,
+            name=new_ds.index.get_values(),
+            rate=new_ds['perc_acc_loan'],
+        ))
+
+        # output_file(TEMPLATE + "loan_perc_states_map.html", title="Loan Acceptance Rate")
+
+        p = figure(title="Loan Acceptance Rate", toolbar_location="left",
+                   plot_width=900, plot_height=573)
+
+        p.patches('x', 'y', source=source,
+                  fill_color={'field': 'rate', 'transform': cm},
+                  fill_alpha=1, line_color="white", line_width=0.5)
+
+        color_bar = ColorBar(color_mapper=cm,
+                             orientation='vertical',
+                             location=(0, 0))
+
+        p.add_layout(color_bar, 'right')
+
+        # grap component
+        script, div = components(p)
 
         return render_template(
             'ciao.html',
