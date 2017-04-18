@@ -3,7 +3,7 @@ import pandas as pd
 from settings import DATA, TEMPLATE
 import numpy as np
 from bokeh.io import show
-from bokeh.palettes import Spectral6, viridis, Blues9
+# from bokeh.palettes import Spectral6, viridis, Blues9
 from bokeh.sampledata import us_states, us_counties, unemployment
 from bokeh.plotting import figure, show, output_file
 from flask import Flask, render_template, request, redirect
@@ -142,7 +142,10 @@ def templateUsMapPercAcceptedLoan():
     # new_ds['perc_acc_loan'] = new_ds.acc_loan / new_ds.requests
     # new_ds.to_csv(DATA + 'perc_acc_loan_per_state.csv', index=False)
 
+    import bokeh.sampledata
     bokeh.sampledata.download()
+
+
     new_ds = pd.read_csv(DATA + 'perc_acc_loan_per_state.csv', header=0)
     new_ds = new_ds.set_index('state')
 

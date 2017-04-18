@@ -30,12 +30,13 @@
       <file leaf-file-name="data_analysis.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/data_analysis.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="143" column="0" lean-forward="true" selection-start-line="143" selection-start-column="0" selection-end-line="143" selection-end-column="0" />
+            <state relative-caret-position="359">
+              <caret line="148" column="4" lean-forward="false" selection-start-line="148" selection-start-column="4" selection-end-line="148" selection-end-column="4" />
               <folding>
                 <element signature="e#0#29#0" expanded="true" />
-                <element signature="e#989#2313#0" expanded="false" />
-                <element signature="e#4515#4781#0" expanded="false" />
+                <element signature="e#991#2315#0" expanded="false" />
+                <element signature="e#2363#4495#0" expanded="false" />
+                <element signature="e#4517#4783#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -539,8 +540,9 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#0#29#0" expanded="true" />
-            <element signature="e#989#2313#0" expanded="false" />
-            <element signature="e#4515#4781#0" expanded="false" />
+            <element signature="e#991#2315#0" expanded="false" />
+            <element signature="e#2363#4495#0" expanded="false" />
+            <element signature="e#4517#4783#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -584,8 +586,9 @@
           <caret line="47" column="25" lean-forward="false" selection-start-line="47" selection-start-column="25" selection-end-line="47" selection-end-column="25" />
           <folding>
             <element signature="e#0#29#0" expanded="true" />
-            <element signature="e#989#2313#0" expanded="false" />
-            <element signature="e#4515#4781#0" expanded="false" />
+            <element signature="e#991#2315#0" expanded="false" />
+            <element signature="e#2363#4495#0" expanded="false" />
+            <element signature="e#4517#4783#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -622,8 +625,9 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#0#29#0" expanded="true" />
-            <element signature="e#989#2313#0" expanded="false" />
-            <element signature="e#4515#4781#0" expanded="false" />
+            <element signature="e#991#2315#0" expanded="false" />
+            <element signature="e#2363#4495#0" expanded="false" />
+            <element signature="e#4517#4783#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -671,13 +675,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="114">
           <caret line="17" column="0" lean-forward="false" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/AppData/Local/Continuum/Anaconda2/Lib/site-packages/bokeh/sampledata/us_states.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="19" column="18" lean-forward="true" selection-start-line="19" selection-start-column="18" selection-end-line="19" selection-end-column="18" />
         </state>
       </provider>
     </entry>
@@ -888,14 +885,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/AppData/Local/Continuum/Anaconda2/Lib/site-packages/bokeh/models/mappers.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="32">
-          <caret line="46" column="16" lean-forward="true" selection-start-line="46" selection-start-column="16" selection-end-line="46" selection-end-column="16" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/templates/new_index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -930,14 +919,31 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Continuum/Anaconda2/Lib/site-packages/bokeh/sampledata/us_states.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="26" column="22" lean-forward="true" selection-start-line="26" selection-start-column="22" selection-end-line="26" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Continuum/Anaconda2/Lib/site-packages/bokeh/models/mappers.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="32">
+          <caret line="46" column="16" lean-forward="true" selection-start-line="46" selection-start-column="16" selection-end-line="46" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/data_analysis.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="143" column="0" lean-forward="true" selection-start-line="143" selection-start-column="0" selection-end-line="143" selection-end-column="0" />
+        <state relative-caret-position="359">
+          <caret line="148" column="4" lean-forward="false" selection-start-line="148" selection-start-column="4" selection-end-line="148" selection-end-column="4" />
           <folding>
             <element signature="e#0#29#0" expanded="true" />
-            <element signature="e#989#2313#0" expanded="false" />
-            <element signature="e#4515#4781#0" expanded="false" />
+            <element signature="e#991#2315#0" expanded="false" />
+            <element signature="e#2363#4495#0" expanded="false" />
+            <element signature="e#4517#4783#0" expanded="false" />
           </folding>
         </state>
       </provider>
