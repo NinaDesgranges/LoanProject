@@ -74,19 +74,23 @@ def createDatasetForAcceptedVsRefused():
     - I filter DATE in order to have same time span
     - I modify type of data (date and dti) in order to omogenizzare the 2 datasets
     - select amont > 0
-    TODO: 1. clean dti = -1; 2. fill NA values
+    - remove dti  1. >10^7; 2. = -1; 3. = 9999; 4. =99999 (remove 8% of data)
+    - manually removeda row with no data but the 1 of the loan I added
 
     :return:
     '''
+
+    # TODO: 2.fill NA values
+
+    print 'Open refused dataset'
     refused = pd.read_csv(DATA + 'refused.csv', sep=',', low_memory=False)
-    print refused.columns.values
 
+    print 'Open accepted dataset'
     accepted = pd.read_csv(DATA + 'accepted.csv', sep=',', low_memory=False)
-    print accepted.columns.values
 
+    print 'Create join dataset'
     small_acc = accepted[['purpose', 'loan_amnt', 'zip_code', 'addr_state', 'emp_length', 'dti', 'issue_d']]
-    # small_acc['issue_d'] = small_acc['issue_d'].map(
-    #     lambda x: datetime.strptime(x, "%b-%Y") if x is not None else None)
+
     small_acc['loan'] = [1] * small_acc.shape[0]
 
     small_acc.columns = ACC_REF_HEADER
@@ -94,7 +98,7 @@ def createDatasetForAcceptedVsRefused():
     small_ref = refused[
         ['Loan Title', 'Amount Requested', 'Zip Code', 'State', 'Employment Length', 'Debt-To-Income Ratio',
          'Application Date']]
-    small_ref['Debt-To-Income Ratio'] = small_ref['Debt-To-Income Ratio'].map(lambda x: x.replace('%', ''))
+    small_ref['Debt-To-Income Ratio'] = small_ref['Debt-To-Income Ratio'].map(lambda x: float(x.replace('%', '')))
     small_ref['Application Date'] = small_ref['Application Date'].map(
         lambda x: datetime.strptime(x, "%Y-%m-%d").strftime('%b-%Y') if x is not None else None)
     small_ref = small_ref[small_ref['Application Date'] != 'May-2007']
@@ -103,8 +107,14 @@ def createDatasetForAcceptedVsRefused():
     small_ref.columns = ACC_REF_HEADER
 
     new_dataset = pd.concat([small_ref, small_acc])
-    new_dataset = new_dataset[new_dataset.amnt != 0]
 
+    print 'Shape before removing values: ' + str(new_dataset.shape)
+    new_dataset = new_dataset[new_dataset.amnt != 0]
+    new_dataset = new_dataset[(new_dataset.dti < pow(10, 7)) & (new_dataset.dti != -1) & (new_dataset.dti != 9999) & (new_dataset.dti != 99999)]
+
+    print 'Shape after removing values: ' + str(new_dataset.shape)
+
+    print 'Save dataset in accepted_refused_ds.csv'
     pd.DataFrame(new_dataset).to_csv(DATA + 'accepted_refused_ds.csv', index=False, header=ACC_REF_HEADER)
 
 
@@ -131,20 +141,16 @@ def plotWithUSPercentage():
     new_ds = pd.read_csv(DATA + 'perc_acc_loan_per_state.csv', header=0)
     new_ds = new_ds.set_index('state')
 
+    Blues9.reverse()
     cm = LinearColorMapper(palette=Blues9, low=min(new_ds.perc_acc_loan.values), high=max(new_ds.perc_acc_loan.values))
-    # , low=min(new_ds.perc_acc_loan.values), high=max(new_ds.perc_acc_loan.values)
 
-    # viridis[10]
+    states = us_states.data.copy()
 
-    # bokeh.sampledata.download()
+    del states["HI"]
+    del states["AK"]
 
-    mus_states = us_states.data.copy()
-
-    del mus_states["HI"]
-    del mus_states["AK"]
-
-    state_xs = [mus_states[code]["lons"] for code in mus_states]
-    state_ys = [mus_states[code]["lats"] for code in mus_states]
+    state_xs = [states[code]["lons"] for code in states]
+    state_ys = [states[code]["lats"] for code in states]
 
     source = ColumnDataSource(data=dict(
         x=state_xs,
@@ -153,31 +159,19 @@ def plotWithUSPercentage():
         rate=new_ds['perc_acc_loan'],
     ))
 
-    output_file("choropleth.html", title="choropleth.py example")
+    output_file(DATA + "html/loan_perc_states_map.html", title="Loan Acceptance Rate")
 
-    p = figure(title="Loan acceptance rate", toolbar_location="left",
+    p = figure(title="Loan Acceptance Rate", toolbar_location="left",
                plot_width=1100, plot_height=700)
 
     p.patches('x', 'y', source=source,
               fill_color={'field': 'rate', 'transform': cm},
-              fill_alpha=0.7, line_color="white", line_width=0.5)
-
-    # p.grid.grid_line_color = None
-    # p.axis.axis_line_color = None
-    # p.axis.major_tick_line_color = None
-    # p.axis.major_label_text_font_size = "5pt"
-    # p.axis.major_label_standoff = 0
-    # p.xaxis.major_label_orientation = 180 / 3
-
-    # color_bar = ColorBar(color_mapper=cm, major_label_text_font_size="20pt",
-    #                      ticker=BasicTicker(desired_num_ticks=len(Blues9)),
-    #                      formatter=PrintfTickFormatter(format="%d%"),
-    #                      label_standoff=60, border_line_color=None, location=(0, 0))
+              fill_alpha=1, line_color="white", line_width=0.5)
 
     color_bar = ColorBar(color_mapper=cm,
                          orientation='vertical',
                          location=(0, 0))
-    p.add_layout(color_bar, 'right')
 
+    p.add_layout(color_bar, 'right')
 
     show(p)
