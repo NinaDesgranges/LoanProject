@@ -55,19 +55,7 @@ def index():
 
         script, div = da.templateUsMapPercAcceptedLoan()
 
-        # html = render_template(
-        #     'new_index_map.html',
-        #     plot_script=script,
-        #     plot_div=div,
-        #     js_resources=js_resources,
-        #     css_resources=css_resources
-        # )
-
-        # return render_template(
-        #     'ciao.html# '
-        # )
-
-        return render_template(
+        html = render_template(
             'new_index_map.html',
             plot_script=script,
             plot_div=div,
@@ -75,7 +63,19 @@ def index():
             css_resources=css_resources
         )
 
-        # return encode_utf8(html)
+        # return render_template(
+        #   'ciao.html# '
+        # )
+
+        # return render_template(
+        #     'new_index_map.html',
+        #     plot_script=script,
+        #     plot_div=div,
+        #     js_resources=js_resources,
+        #     css_resources=css_resources
+        # )
+
+        return encode_utf8(html)
 
         # return render_template('loan_perc_states_map.html')
         # return render_template('index.html',
