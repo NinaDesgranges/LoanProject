@@ -111,23 +111,23 @@ def index():
             rate=new_ds['perc_acc_loan'],
         ))
 
-        # output_file(TEMPLATE + "loan_perc_states_map.html", title="Loan Acceptance Rate")
-
-        p = figure(title="Loan Acceptance Rate", toolbar_location="left",
-                   plot_width=900, plot_height=573)
-
-        p.patches('x', 'y', source=source,
-                  fill_color={'field': 'rate', 'transform': cm},
-                  fill_alpha=1, line_color="white", line_width=0.5)
-
-        color_bar = ColorBar(color_mapper=cm,
-                             orientation='vertical',
-                             location=(0, 0))
-
-        p.add_layout(color_bar, 'right')
-
-        # grap component
-        script, div = components(p)
+        # # output_file(TEMPLATE + "loan_perc_states_map.html", title="Loan Acceptance Rate")
+        #
+        # p = figure(title="Loan Acceptance Rate", toolbar_location="left",
+        #            plot_width=900, plot_height=573)
+        #
+        # p.patches('x', 'y', source=source,
+        #           fill_color={'field': 'rate', 'transform': cm},
+        #           fill_alpha=1, line_color="white", line_width=0.5)
+        #
+        # color_bar = ColorBar(color_mapper=cm,
+        #                      orientation='vertical',
+        #                      location=(0, 0))
+        #
+        # p.add_layout(color_bar, 'right')
+        #
+        # # grap component
+        # script, div = components(p)
 
         return render_template(
             'ciao.html',
