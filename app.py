@@ -91,25 +91,25 @@ def index():
                                low=min(new_ds.perc_acc_loan.values), high=max(new_ds.perc_acc_loan.values))
 
         states = json.load(open(DATA + 'boundaries.json', 'r'))
-        # states = us_states.data.copy()
-        # states = sta.copy()
-
-        # f = open(DATA + "boundaries.json", "w")
-        # f.write(str(states))
-        # f.close()
-
-        # del states["HI"]
-        # del states["AK"]
-
-        state_xs = [states[code]["lons"] for code in states]
-        state_ys = [states[code]["lats"] for code in states]
-
-        source = ColumnDataSource(data=dict(
-            x=state_xs,
-            y=state_ys,
-            name=new_ds.index.get_values(),
-            rate=new_ds['perc_acc_loan'],
-        ))
+        # # states = us_states.data.copy()
+        # # states = sta.copy()
+        #
+        # # f = open(DATA + "boundaries.json", "w")
+        # # f.write(str(states))
+        # # f.close()
+        #
+        # # del states["HI"]
+        # # del states["AK"]
+        #
+        # state_xs = [states[code]["lons"] for code in states]
+        # state_ys = [states[code]["lats"] for code in states]
+        #
+        # source = ColumnDataSource(data=dict(
+        #     x=state_xs,
+        #     y=state_ys,
+        #     name=new_ds.index.get_values(),
+        #     rate=new_ds['perc_acc_loan'],
+        # ))
 
         # # output_file(TEMPLATE + "loan_perc_states_map.html", title="Loan Acceptance Rate")
         #
