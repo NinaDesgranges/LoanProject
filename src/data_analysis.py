@@ -1,7 +1,7 @@
 from datetime import datetime
 import pandas as pd
 from settings import DATA, TEMPLATE
-import json#
+import json
 import numpy as np
 from bokeh.io import show
 # from bokeh.palettes import Spectral6, viridis, Blues9
@@ -190,6 +190,8 @@ def templateUsMapPercAcceptedLoan():
 
     # grap component
     script, div = components(p)
+
+
 
     return script, div
 
