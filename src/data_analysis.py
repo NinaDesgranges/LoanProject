@@ -1,11 +1,15 @@
 from datetime import datetime
 import pandas as pd
-from settings import DATA
+from settings import DATA, TEMPLATE
 import numpy as np
 from bokeh.io import show
 from bokeh.palettes import Spectral6, viridis, Blues9
 from bokeh.sampledata import us_states, us_counties, unemployment
 from bokeh.plotting import figure, show, output_file
+from flask import Flask, render_template, request, redirect
+from bokeh.embed import components
+from bokeh.resources import INLINE
+from bokeh.util.string import encode_utf8
 
 from bokeh.models import (
     ColumnDataSource,
@@ -127,7 +131,7 @@ def getInfo():
     print ds.emp_len.describe()
 
 
-def plotWithUSPercentage():
+def templateUsMapPercAcceptedLoan():
     # ds = pd.read_csv(DATA + 'accepted_refused_ds.csv', header=0)
     #
     # aggregationState = ds[['state', 'loan']].groupby(['state'])
@@ -141,8 +145,10 @@ def plotWithUSPercentage():
     new_ds = pd.read_csv(DATA + 'perc_acc_loan_per_state.csv', header=0)
     new_ds = new_ds.set_index('state')
 
-    Blues9.reverse()
-    cm = LinearColorMapper(palette=Blues9, low=min(new_ds.perc_acc_loan.values), high=max(new_ds.perc_acc_loan.values))
+    # Blues9.reverse()
+    my_col = ['#f7fbff', '#deebf7', '#c6dbef', '#9ecae1', '#6baed6', '#4292c6', '#2171b5', '#084594']
+    cm = LinearColorMapper(palette=['#deebf7', '#c6dbef', '#9ecae1', '#6baed6', '#4292c6', '#2171b5', '#084594'],
+                           low=min(new_ds.perc_acc_loan.values), high=max(new_ds.perc_acc_loan.values))
 
     states = us_states.data.copy()
 
@@ -159,10 +165,10 @@ def plotWithUSPercentage():
         rate=new_ds['perc_acc_loan'],
     ))
 
-    output_file(DATA + "html/loan_perc_states_map.html", title="Loan Acceptance Rate")
+    # output_file(TEMPLATE + "loan_perc_states_map.html", title="Loan Acceptance Rate")
 
     p = figure(title="Loan Acceptance Rate", toolbar_location="left",
-               plot_width=1100, plot_height=700)
+               plot_width=900, plot_height=573)
 
     p.patches('x', 'y', source=source,
               fill_color={'field': 'rate', 'transform': cm},
@@ -174,4 +180,9 @@ def plotWithUSPercentage():
 
     p.add_layout(color_bar, 'right')
 
-    show(p)
+    # grap component
+    script, div = components(p)
+
+    return script, div
+
+

@@ -7,6 +7,11 @@ from bokeh.resources import INLINE
 import numpy as np
 from bokeh.util.string import encode_utf8
 
+# from settings import SRC_TEMPLATE_US_MAP
+import sys
+import os
+
+from src import data_analysis as da
 
 app = Flask(__name__)
 app.vars = {}
@@ -37,8 +42,25 @@ def index():
     distinct_ticker = ', '.join(set(ticker))
 
     if request.method == 'GET':
-        return render_template('index.html',
-                               distinct_ticker=distinct_ticker)
+
+        # grab the static resources
+        js_resources = INLINE.render_js()
+        css_resources = INLINE.render_css()
+
+        script, div = da.templateUsMapPercAcceptedLoan()
+
+        html = render_template(
+            'new_index_map.html',
+            plot_script=script,
+            plot_div=div,
+            js_resources=js_resources,
+            css_resources=css_resources
+        )
+        return encode_utf8(html)
+
+        # return render_template('loan_perc_states_map.html')
+        # return render_template('index.html',
+        #                        distinct_ticker=distinct_ticker)
     else:
         
         #get data interted by user
@@ -70,16 +92,17 @@ def index():
 
         #grap component 
         script, div = components(p1)
-        html = render_template(
-            'new_index.html',
+
+        return render_template(
+            'new_index_map.html',
             plot_script=script,
             plot_div=div,
             js_resources=js_resources,
             css_resources=css_resources,
             ticker_type=selected_ticker
         )
-        return encode_utf8(html)
-    
+        # return encode_utf8(html)
+
 
 if __name__ == '__main__':
     app.run(port=33507)
