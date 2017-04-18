@@ -22,7 +22,7 @@ from bokeh.models import (
 )
 from bokeh.palettes import Viridis6 as palette
 from bokeh.plotting import figure
-# import bokeh
+import bokeh
 # import bokeh.sampledata
 from bokeh.sampledata.unemployment import data as unemployment
 from bokeh.sampledata.us_counties import data as cc
@@ -142,6 +142,7 @@ def templateUsMapPercAcceptedLoan():
     # new_ds['perc_acc_loan'] = new_ds.acc_loan / new_ds.requests
     # new_ds.to_csv(DATA + 'perc_acc_loan_per_state.csv', index=False)
 
+    bokeh.sampledata.download()
     new_ds = pd.read_csv(DATA + 'perc_acc_loan_per_state.csv', header=0)
     new_ds = new_ds.set_index('state')
 
