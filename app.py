@@ -6,7 +6,7 @@ from bokeh.embed import components
 from bokeh.resources import INLINE
 import numpy as np
 from bokeh.util.string import encode_utf8
-
+import bokeh
 # from settings import SRC_TEMPLATE_US_MAP
 import sys
 import os
@@ -16,7 +16,7 @@ from src import data_analysis as da
 app = Flask(__name__)
 app.vars = {}
 
-
+bokeh.sampledata.download()
 @app.route('/')
 def main():
     return redirect('/index')
