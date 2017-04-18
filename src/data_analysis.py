@@ -5,6 +5,7 @@ import numpy as np
 from bokeh.io import show
 # from bokeh.palettes import Spectral6, viridis, Blues9
 # from bokeh.sampledata import us_states
+bokeh.sampledata.download()
 from bokeh.sampledata.us_states import data as sta
 from bokeh.plotting import figure, show, output_file
 from flask import Flask, render_template, request, redirect
@@ -26,6 +27,7 @@ from bokeh.plotting import figure
 import bokeh
 
 ACC_REF_HEADER = ['title', 'amnt', 'zip', 'state', 'emp_len', 'dti', 'date', 'loan']
+
 
 
 def createNewDataset():

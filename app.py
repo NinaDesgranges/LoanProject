@@ -16,7 +16,7 @@ from src import data_analysis as da
 app = Flask(__name__)
 app.vars = {}
 
-bokeh.sampledata.download()
+
 
 @app.route('/')
 def main():
