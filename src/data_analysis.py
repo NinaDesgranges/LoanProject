@@ -1,11 +1,13 @@
 from datetime import datetime
 import pandas as pd
 from settings import DATA, TEMPLATE
+import json#
 import numpy as np
 from bokeh.io import show
 # from bokeh.palettes import Spectral6, viridis, Blues9
 # from bokeh.sampledata import us_states
-from bokeh.sampledata.us_states import data as sta
+# from bokeh.sampledata.us_states import data as sta
+from bokeh.sampledata import us_states
 from bokeh.plotting import figure, show, output_file
 from flask import Flask, render_template, request, redirect
 from bokeh.embed import components
@@ -150,10 +152,16 @@ def templateUsMapPercAcceptedLoan():
     cm = LinearColorMapper(palette=['#deebf7', '#c6dbef', '#9ecae1', '#6baed6', '#4292c6', '#2171b5', '#084594'],
                            low=min(new_ds.perc_acc_loan.values), high=max(new_ds.perc_acc_loan.values))
 
-    states = sta.copy()
+    states = json.load(open(DATA + 'boundaries.json', 'r'))
+    # states = us_states.data.copy()
+    # states = sta.copy()
 
-    del states["HI"]
-    del states["AK"]
+    # f = open(DATA + "boundaries.json", "w")
+    # f.write(str(states))
+    # f.close()
+
+    #del states["HI"]
+    #del states["AK"]
 
     state_xs = [states[code]["lons"] for code in states]
     state_ys = [states[code]["lats"] for code in states]
