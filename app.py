@@ -129,21 +129,21 @@ def index():
         # grap component
         script, div = components(p)
 
-        return render_template(
-            'ciao.html',
-            # plot_script=script,
-            # plot_div=div,
-            js_resources=js_resources,
-            css_resources=css_resources
-        )
-
         # return render_template(
-        #     'new_index_map.html',
-        #     plot_script=script,
-        #     plot_div=div,
+        #     'ciao.html',
+        #     # plot_script=script,
+        #     # plot_div=div,
         #     js_resources=js_resources,
         #     css_resources=css_resources
         # )
+
+        return render_template(
+            'new_index_map.html',
+            plot_script=script,
+            plot_div=div,
+            js_resources=js_resources,
+            css_resources=css_resources
+        )
 
         # return encode_utf8(html)
     #
