@@ -4,7 +4,8 @@ from settings import DATA, TEMPLATE
 import numpy as np
 from bokeh.io import show
 # from bokeh.palettes import Spectral6, viridis, Blues9
-from bokeh.sampledata import us_states, us_counties, unemployment
+# from bokeh.sampledata import us_states
+from bokeh.sampledata.us_states import data as sta
 from bokeh.plotting import figure, show, output_file
 from flask import Flask, render_template, request, redirect
 from bokeh.embed import components
@@ -23,9 +24,6 @@ from bokeh.models import (
 from bokeh.palettes import Viridis6 as palette
 from bokeh.plotting import figure
 import bokeh
-# import bokeh.sampledata
-from bokeh.sampledata.unemployment import data as unemployment
-from bokeh.sampledata.us_counties import data as cc
 
 ACC_REF_HEADER = ['title', 'amnt', 'zip', 'state', 'emp_len', 'dti', 'date', 'loan']
 
@@ -142,8 +140,6 @@ def templateUsMapPercAcceptedLoan():
     # new_ds['perc_acc_loan'] = new_ds.acc_loan / new_ds.requests
     # new_ds.to_csv(DATA + 'perc_acc_loan_per_state.csv', index=False)
 
-    import bokeh.sampledata
-    bokeh.sampledata.download()
 
 
     new_ds = pd.read_csv(DATA + 'perc_acc_loan_per_state.csv', header=0)
@@ -154,7 +150,8 @@ def templateUsMapPercAcceptedLoan():
     cm = LinearColorMapper(palette=['#deebf7', '#c6dbef', '#9ecae1', '#6baed6', '#4292c6', '#2171b5', '#084594'],
                            low=min(new_ds.perc_acc_loan.values), high=max(new_ds.perc_acc_loan.values))
 
-    states = us_states.data.copy()
+
+    states = sta.copy()
 
     del states["HI"]
     del states["AK"]
