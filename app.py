@@ -17,6 +17,10 @@ app = Flask(__name__)
 app.vars = {}
 
 
+def downloadData():
+    import bokeh
+    bokeh.sampledata.download()
+
 
 @app.route('/')
 def main():
@@ -44,6 +48,7 @@ def index():
 
     if request.method == 'GET':
 
+        downloadData()
         # grab the static resources
         js_resources = INLINE.render_js()
         css_resources = INLINE.render_css()

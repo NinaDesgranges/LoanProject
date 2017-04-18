@@ -5,8 +5,6 @@ import numpy as np
 from bokeh.io import show
 # from bokeh.palettes import Spectral6, viridis, Blues9
 # from bokeh.sampledata import us_states
-import bokeh
-bokeh.sampledata.download()
 from bokeh.sampledata.us_states import data as sta
 from bokeh.plotting import figure, show, output_file
 from flask import Flask, render_template, request, redirect
@@ -25,10 +23,9 @@ from bokeh.models import (
 )
 from bokeh.palettes import Viridis6 as palette
 from bokeh.plotting import figure
-import bokeh
+
 
 ACC_REF_HEADER = ['title', 'amnt', 'zip', 'state', 'emp_len', 'dti', 'date', 'loan']
-
 
 
 def createNewDataset():
@@ -152,7 +149,6 @@ def templateUsMapPercAcceptedLoan():
     my_col = ['#f7fbff', '#deebf7', '#c6dbef', '#9ecae1', '#6baed6', '#4292c6', '#2171b5', '#084594']
     cm = LinearColorMapper(palette=['#deebf7', '#c6dbef', '#9ecae1', '#6baed6', '#4292c6', '#2171b5', '#084594'],
                            low=min(new_ds.perc_acc_loan.values), high=max(new_ds.perc_acc_loan.values))
-
 
     states = sta.copy()
 
