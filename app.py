@@ -1,3 +1,4 @@
+import simplejson
 from flask import Flask, render_template, request, redirect
 import requests
 import simplejson as json
@@ -15,7 +16,7 @@ from settings import DATA
 from bokeh.embed import components
 from bokeh.resources import INLINE
 from bokeh.util.string import encode_utf8
-
+import bokeh.sampledata.us_states
 from bokeh.models import (
     ColumnDataSource,
     HoverTool,
@@ -90,7 +91,9 @@ def index():
         cm = LinearColorMapper(palette=['#deebf7', '#c6dbef', '#9ecae1', '#6baed6', '#4292c6', '#2171b5', '#084594'],
                                low=min(new_ds.perc_acc_loan.values), high=max(new_ds.perc_acc_loan.values))
 
-        states = json.load(open(DATA + 'boundaries.json', 'r'))
+        boundaries = open(DATA + 'boundaries.json').read()
+        #states = simplejson.dumps(boundaries, ignore_nan=True)
+        states = json.loads(boundaries)
         # states = us_states.data.copy()
         # states = sta.copy()
 
