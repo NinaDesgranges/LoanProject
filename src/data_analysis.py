@@ -1,6 +1,6 @@
 from datetime import datetime
 import pandas as pd
-from settings import DATA, TEMPLATE
+from settings import DATA, DATA_LOCAL
 import json
 import numpy as np
 from bokeh.io import show
@@ -168,10 +168,13 @@ def templateUsMapPercAcceptedLoan():
         rate=rate,
     ))
 
-    # output_file(TEMPLATE + "loan_perc_states_map.html", title="Loan Acceptance Rate")
+    TOOLS = "pan,wheel_zoom,reset,hover,save"
 
-    p = figure(title="Loan Acceptance Rate", toolbar_location="left",
-               plot_width=900, plot_height=573)
+    p = figure(title="Loan Acceptance Rate",
+               toolbar_location="left",
+               plot_width=900,
+               plot_height=573,
+               tools=TOOLS)
 
     p.patches('x', 'y', source=source,
               fill_color={'field': 'rate', 'transform': cm},
@@ -183,8 +186,24 @@ def templateUsMapPercAcceptedLoan():
 
     p.add_layout(color_bar, 'right')
 
+    hover = p.select_one(HoverTool)
+    hover.point_policy = "follow_mouse"
+    hover.tooltips = [
+        ("State", "@name"),
+        ("Loan Acceepance Rate", "@rate")
+    ]
+
+    # show(p)
     # grap component
     script, div = components(p)
+
+    f = open(DATA_LOCAL + 'div.txt', 'w')
+    f.write(div)
+    f.close()
+
+    f = open(DATA_LOCAL + 'script.txt', 'w')
+    f.write(script)
+    f.close()
 
     return script, div
 

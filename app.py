@@ -14,7 +14,7 @@ import sys
 import os
 from settings import DATA
 from bokeh.embed import components
-from bokeh.resources import INLINE
+from bokeh.resources import INLINE, CDN
 from bokeh.util.string import encode_utf8
 import bokeh.sampledata.us_states
 from bokeh.models import (
@@ -59,10 +59,15 @@ def index():
 
     if request.method == 'GET':
 
-        js_resources = INLINE.render_js()
-        css_resources = INLINE.render_css()
+        js_resources = CDN.render_js()
+        css_resources = CDN.render_css()
 
         script, div = da.templateUsMapPercAcceptedLoan()
+
+        # return render_template('test_interactivity.html',
+        #                        js_resources=js_resources,
+        #                        css_resources=css_resources
+        #                        )
 
         return render_template(
             'new_index_map.html',
