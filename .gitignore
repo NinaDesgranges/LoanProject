@@ -4,5 +4,6 @@ staticfiles
 .env
 db.sqlite3
 .idea/workspace.xml
-data_Nina
+data_local
 .idea
+Presentations
