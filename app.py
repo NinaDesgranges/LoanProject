@@ -59,8 +59,8 @@ def index():
 
     if request.method == 'GET':
 
-        js_resources = CDN.render_js()
-        css_resources = CDN.render_css()
+        js_resources = INLINE.render_js()
+        css_resources = INLINE.render_css()
 
         script, div = da.templateUsMapPercAcceptedLoan()
 
