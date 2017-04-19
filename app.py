@@ -34,11 +34,6 @@ app = Flask(__name__)
 app.vars = {}
 
 
-# def downloadData():
-#     import bokeh
-#     bokeh.sampledata.download()
-
-
 @app.route('/')
 def main():
     return redirect('/index')
@@ -67,78 +62,7 @@ def index():
         js_resources = INLINE.render_js()
         css_resources = INLINE.render_css()
 
-        # script, div = da.templateUsMapPercAcceptedLoan()
-
-        # html = render_template(
-        #     'new_index.html',
-        #     plot_script=script,
-        #     plot_div=div,
-        #     js_resources=js_resources,
-        #     css_resources=css_resources
-        # )
-
-
-
-
-
-
-
-        new_ds = pd.read_csv(DATA + 'perc_acc_loan_per_state.csv', header=0)
-        new_ds = new_ds.set_index('state')
-
-        # Blues9.reverse()
-        my_col = ['#f7fbff', '#deebf7', '#c6dbef', '#9ecae1', '#6baed6', '#4292c6', '#2171b5', '#084594']
-        cm = LinearColorMapper(palette=['#deebf7', '#c6dbef', '#9ecae1', '#6baed6', '#4292c6', '#2171b5', '#084594'],
-                               low=min(new_ds.perc_acc_loan.values), high=max(new_ds.perc_acc_loan.values))
-
-        boundaries = open(DATA + 'boundaries.json').read()
-        #states = simplejson.dumps(boundaries, ignore_nan=True)
-        states = json.loads(boundaries)
-        # states = us_states.data.copy()
-        # states = sta.copy()
-
-        # f = open(DATA + "boundaries.json", "w")
-        # f.write(str(states))
-        # f.close()
-
-        # del states["HI"]
-        # del states["AK"]
-
-        state_xs = [states[code]["lons"] for code in states]
-        state_ys = [states[code]["lats"] for code in states]
-
-        source = ColumnDataSource(data=dict(
-            x=state_xs,
-            y=state_ys,
-            name=new_ds.index.get_values(),
-            rate=new_ds['perc_acc_loan'],
-        ))
-
-        # output_file(TEMPLATE + "loan_perc_states_map.html", title="Loan Acceptance Rate")
-
-        p = figure(title="Loan Acceptance Rate", toolbar_location="left",
-                   plot_width=900, plot_height=573)
-
-        p.patches('x', 'y', source=source,
-                  fill_color={'field': 'rate', 'transform': cm},
-                  fill_alpha=1, line_color="white", line_width=0.5)
-
-        color_bar = ColorBar(color_mapper=cm,
-                             orientation='vertical',
-                             location=(0, 0))
-
-        p.add_layout(color_bar, 'right')
-
-        # grap component
-        script, div = components(p)
-
-        # return render_template(
-        #     'ciao.html',
-        #     # plot_script=script,
-        #     # plot_div=div,
-        #     js_resources=js_resources,
-        #     css_resources=css_resources
-        # )
+        script, div = da.templateUsMapPercAcceptedLoan()
 
         return render_template(
             'new_index_map.html',
@@ -148,7 +72,7 @@ def index():
             css_resources=css_resources
         )
 
-        # return encode_utf8(html)
+    # return encode_utf8(html)
     #
     # return render_template('loan_perc_states_map.html')
     # return render_template('index.html',

@@ -1,5 +1,5 @@
 import pandas as pd
-from settings import DATA
+from settings import DATA, DATA_LOCAL
 from sklearn import preprocessing
 import matplotlib.pyplot as plt
 import collections
@@ -88,7 +88,7 @@ def preliminaryAnalysis():
     print data.dti.describe()
 
 
-def dataTransformation(path=DATA + "accepted_refused_ds.csv"):
+def dataTransformation(path=DATA_LOCAL + "accepted_refused_ds.csv"):
     print 'Open data'
     data = pd.read_csv(path, header=0)
     data['month'] = [c[0:3] for c in data.date]
@@ -203,9 +203,9 @@ def gridSearchLogisticRegression(data):
     f.close()
 
 
-def outputGridSearchLogisticRegression(path=DATA + 'accepted_refused_ds.csv'):
+def outputGridSearchLogisticRegression(path=DATA_LOCAL + 'accepted_refused_ds.csv'):
 
-    data_file = open(DATA + 'dict_f1.json', 'r')
+    data_file = open(DATA_LOCAL + 'dict_recall.json', 'r')
     # print data_file.read()
     data = json.load(data_file)
     pprint(data)
@@ -217,25 +217,26 @@ def outputGridSearchLogisticRegression(path=DATA + 'accepted_refused_ds.csv'):
     # log loss: 0.0281176869797
     # f1: 0.0281176869797
     # roc_auc: 0.0001
+    # recall:
     plt.semilogx(data['param_C']['data'], data['mean_test_score'])
     # plt.show()
     plt.close()
     print 'Data transformation'
     # my_data = dataTransformation(path)
-    my_data = pd.read_csv(DATA + 'accepted_refused_ds_trans.csv', header=0)
+    my_data = pd.read_csv(DATA_LOCAL + 'accepted_refused_ds_trans.csv', header=0)
     print my_data.head()
     y = my_data['loan']
     X = my_data.drop('loan', axis=1)
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=101)
     print 'Built and fit the model'
-    lr = LogisticRegression(class_weight='balanced', random_state=101, C=0.02812)
+    lr = LogisticRegression(class_weight='balanced', random_state=101, C=best_param)
     lr.fit(X=X_train, y=y_train)
     y_pred = lr.predict_proba(X=X_test)
     coef = lr.coef_
     print lr.get_params()
     name_coef = my_data.columns.values[:-1]
     coef_val = pd.DataFrame(data={'coef': name_coef, 'val': coef[0]})
-    coef_val.to_csv(DATA + 'LogisticRegressionCoef_c002812.csv', index=False)
+    coef_val.to_csv(DATA + 'LogisticRegressionCoef_c' + str(best_param) + '.csv', index=False)
 
 
     print 'Built ROC curve'
@@ -274,6 +275,7 @@ def outputGridSearchLogisticRegression(path=DATA + 'accepted_refused_ds.csv'):
     plt.show()
 
     thre = float(roc.ix[(roc.tf - 0.0).abs().argsort()[:1]]['thresholds'])
+    # thre = 0.45
 
     print 'Confusion matrix threshold = ' + str(thre)
     print confusion_matrix(y_true=y_test, y_pred=[1 if a > thre else 0 for a in y_0])
@@ -295,3 +297,10 @@ def outputGridSearchLogisticRegression(path=DATA + 'accepted_refused_ds.csv'):
     print 'Score accuracy (thres = 0.5) = ' + str(accuracy_score(y_true=y_test, y_pred=[1 if a > 0.5 else 0 for a in y_0]))
 
     print 'Score AUC = ' + str(roc_auc)
+
+    # import plot_roc as pr
+
+    # pr.plot_roc(tpr=tpr,
+    #             fpr=fpr,
+    #             thresholds=threshold)
+

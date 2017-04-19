@@ -7,7 +7,7 @@ from settings import DATA
 
 # da.getInfo()
 
-da.templateUsMapPercAcceptedLoan()
+# da.templateUsMapPercAcceptedLoan()
 
 # acc_ref_model.preliminaryAnalysis()
 
@@ -17,4 +17,4 @@ da.templateUsMapPercAcceptedLoan()
 
 # acc_ref_model.gridSearchLogisticRegression(acc_ref_model.dataTransformation())
 
-# acc_ref_model.outputGridSearchLogisticRegression() #path=DATA + 'accepted_refused_ds_small.csv')
+acc_ref_model.outputGridSearchLogisticRegression() #path=DATA + 'accepted_refused_ds_small.csv')

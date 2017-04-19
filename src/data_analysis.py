@@ -145,6 +145,7 @@ def templateUsMapPercAcceptedLoan():
 
 
     new_ds = pd.read_csv(DATA + 'perc_acc_loan_per_state.csv', header=0)
+
     new_ds = new_ds.set_index('state')
 
     # Blues9.reverse()
@@ -152,25 +153,19 @@ def templateUsMapPercAcceptedLoan():
     cm = LinearColorMapper(palette=['#deebf7', '#c6dbef', '#9ecae1', '#6baed6', '#4292c6', '#2171b5', '#084594'],
                            low=min(new_ds.perc_acc_loan.values), high=max(new_ds.perc_acc_loan.values))
 
-    states = json.load(open(DATA + 'boundaries.json', 'r'))
-    # states = us_states.data.copy()
-    # states = sta.copy()
-
-    # f = open(DATA + "boundaries.json", "w")
-    # f.write(str(states))
-    # f.close()
-
-    #del states["HI"]
-    #del states["AK"]
+    boundaries = open(DATA + 'boundaries.json').read()
+    states = json.loads(boundaries)
 
     state_xs = [states[code]["lons"] for code in states]
     state_ys = [states[code]["lats"] for code in states]
+    rate = [new_ds.perc_acc_loan[code] for code in states]
+    name = [code for code in states]
 
     source = ColumnDataSource(data=dict(
         x=state_xs,
         y=state_ys,
-        name=new_ds.index.get_values(),
-        rate=new_ds['perc_acc_loan'],
+        name=name,
+        rate=rate,
     ))
 
     # output_file(TEMPLATE + "loan_perc_states_map.html", title="Loan Acceptance Rate")
@@ -190,8 +185,6 @@ def templateUsMapPercAcceptedLoan():
 
     # grap component
     script, div = components(p)
-
-
 
     return script, div
 
