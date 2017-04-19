@@ -64,6 +64,8 @@ def index():
 
         script, div = da.templateUsMapPercAcceptedLoan()
 
+        script_corr, div_corr = da.templateRateCorrelation()
+
         # return render_template('test_interactivity.html',
         #                        js_resources=js_resources,
         #                        css_resources=css_resources
@@ -73,6 +75,8 @@ def index():
             'new_index_map.html',
             plot_script=script,
             plot_div=div,
+            plot_script_corr=script_corr,
+            plot_div_corr=div_corr,
             js_resources=js_resources,
             css_resources=css_resources
         )

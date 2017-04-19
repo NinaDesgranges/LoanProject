@@ -13,19 +13,23 @@ from flask import Flask, render_template, request, redirect
 from bokeh.embed import components
 from bokeh.resources import INLINE
 from bokeh.util.string import encode_utf8
-
+from sklearn.model_selection import train_test_split
+from bokeh.models.callbacks import CustomJS
+from bokeh.models.widgets import Select
+from bokeh.layouts import row, column
 from bokeh.models import (
     ColumnDataSource,
     HoverTool,
     ColorMapper,
     LinearColorMapper,
     ColorBar,
+    FuncTickFormatter,
+    FixedTicker,
     PrintfTickFormatter,
     BasicTicker
 )
 from bokeh.palettes import Viridis6 as palette
 from bokeh.plotting import figure
-
 
 ACC_REF_HEADER = ['title', 'amnt', 'zip', 'state', 'emp_len', 'dti', 'date', 'loan']
 
@@ -114,7 +118,8 @@ def createDatasetForAcceptedVsRefused():
 
     print 'Shape before removing values: ' + str(new_dataset.shape)
     new_dataset = new_dataset[new_dataset.amnt != 0]
-    new_dataset = new_dataset[(new_dataset.dti < pow(10, 7)) & (new_dataset.dti != -1) & (new_dataset.dti != 9999) & (new_dataset.dti != 99999)]
+    new_dataset = new_dataset[(new_dataset.dti < pow(10, 7)) & (new_dataset.dti != -1) & (new_dataset.dti != 9999) & (
+    new_dataset.dti != 99999)]
 
     print 'Shape after removing values: ' + str(new_dataset.shape)
 
@@ -148,18 +153,19 @@ def templateUsMapPercAcceptedLoan():
 
     new_ds = new_ds.set_index('state')
 
-    # Blues9.reverse()
-    my_col = ['#f7fbff', '#deebf7', '#c6dbef', '#9ecae1', '#6baed6', '#4292c6', '#2171b5', '#084594']
-    cm = LinearColorMapper(palette=['#deebf7', '#c6dbef', '#9ecae1', '#6baed6', '#4292c6', '#2171b5', '#084594'],
-                           low=min(new_ds.perc_acc_loan.values), high=max(new_ds.perc_acc_loan.values))
-
     boundaries = open(DATA + 'boundaries.json').read()
     states = json.loads(boundaries)
 
     state_xs = [states[code]["lons"] for code in states]
     state_ys = [states[code]["lats"] for code in states]
-    rate = [new_ds.perc_acc_loan[code] for code in states]
-    name = [code for code in states]
+    rate = [new_ds.perc_acc_loan[code] * 100 for code in states]
+    name = [states[code]["name"] + '-' + code for code in states]
+
+    cm = LinearColorMapper(palette=['#deebf7', '#c6dbef', '#9ecae1', '#6baed6', '#4292c6', '#2171b5', '#084594'],
+                           low=round(min(rate), 2),
+                           high=round(max(rate), 2)
+                           )
+
 
     source = ColumnDataSource(data=dict(
         x=state_xs,
@@ -170,10 +176,10 @@ def templateUsMapPercAcceptedLoan():
 
     TOOLS = "pan,wheel_zoom,reset,hover,save"
 
-    p = figure(title="Loan Acceptance Rate",
-               toolbar_location="left",
-               plot_width=900,
-               plot_height=573,
+    p = figure(title="",
+               toolbar_location="above",
+               plot_width=800,
+               plot_height=509,
                tools=TOOLS)
 
     p.patches('x', 'y', source=source,
@@ -182,7 +188,10 @@ def templateUsMapPercAcceptedLoan():
 
     color_bar = ColorBar(color_mapper=cm,
                          orientation='vertical',
-                         location=(0, 0))
+                         location=(0, 0),
+                         # ticker=ticker,
+                         # formatter=formatter
+                         )
 
     p.add_layout(color_bar, 'right')
 
@@ -190,21 +199,53 @@ def templateUsMapPercAcceptedLoan():
     hover.point_policy = "follow_mouse"
     hover.tooltips = [
         ("State", "@name"),
-        ("Loan Acceepance Rate", "@rate")
+        ("Loan Accepance Rate", "@rate%")
     ]
 
     # show(p)
     # grap component
     script, div = components(p)
 
-    # f = open(DATA_LOCAL + 'div.txt', 'w')
-    # f.write(div)
-    # f.close()
-    #
-    # f = open(DATA_LOCAL + 'script.txt', 'w')
-    # f.write(script)
-    # f.close()
-
     return script, div
+
+def templateRateCorrelation():
+
+    DEFAULT_X = ['Amount', 'Income', 'Debt To Income Ratio']
+
+    data = pd.read_csv(DATA + 'accepted_less_col_small.csv', header=0)
+
+    select_x= Select(value='Amount', options=DEFAULT_X)
+
+    source = ColumnDataSource(data=dict(x=data['amnt'], y=data['rate']))
+
+    corr = figure(plot_width=800, plot_height=509,
+                  tools='pan,wheel_zoom,reset')
+
+    corr.circle('x', 'y', size=2, source=source
+                # ,selection_color="orange", alpha=0.6, nonselection_alpha=0.1, selection_alpha=0.4
+                )
+    layout = column(select_x, corr)
+
+    script_corr, div_corr = components(layout)
+
+    return script_corr, div_corr
+
+
+    # show(layout)
+
+def createSmallDataset():
+
+    data = pd.read_csv(DATA_LOCAL + 'accepted.csv', header=0)
+    print data.columns.values
+
+    small = data[['loan_amnt', 'annual_inc', 'dti', 'int_rate', 'addr_state']]
+    small.columns = ['amnt', 'income', 'dti', 'rate', 'state']
+    small['rate'] = small['rate'].map(lambda x: str(x).replace('%', '').strip())
+    small.to_csv(DATA_LOCAL + 'accepted_less_col.csv', index=False)
+
+    X_train, X_test = train_test_split(small, test_size=1.0/26, random_state=101)
+
+    X_test.to_csv(DATA_LOCAL + 'accepted_less_col_small.csv', index=False)
+
 
 
