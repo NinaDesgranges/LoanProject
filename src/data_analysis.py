@@ -197,13 +197,13 @@ def templateUsMapPercAcceptedLoan():
     # grap component
     script, div = components(p)
 
-    f = open(DATA_LOCAL + 'div.txt', 'w')
-    f.write(div)
-    f.close()
-
-    f = open(DATA_LOCAL + 'script.txt', 'w')
-    f.write(script)
-    f.close()
+    # f = open(DATA_LOCAL + 'div.txt', 'w')
+    # f.write(div)
+    # f.close()
+    #
+    # f = open(DATA_LOCAL + 'script.txt', 'w')
+    # f.write(script)
+    # f.close()
 
     return script, div
 
