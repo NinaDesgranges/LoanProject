@@ -13,7 +13,6 @@ from flask import Flask, render_template, request, redirect
 from bokeh.embed import components
 from bokeh.resources import INLINE
 from bokeh.util.string import encode_utf8
-# from sklearn.model_selection import train_test_split
 from bokeh.models.callbacks import CustomJS
 from bokeh.models.widgets import Select
 from bokeh.layouts import row, column
@@ -39,6 +38,7 @@ from bokeh.models.widgets import Select, TextInput
 from bokeh.models.layouts import HBox, VBox
 import bokeh.io
 from bokeh.models import CustomJS
+import os.path
 
 ACC_REF_HEADER = ['title', 'amnt', 'zip', 'state', 'emp_len', 'dti', 'date', 'loan']
 
@@ -176,7 +176,6 @@ def templateUsMapPercAcceptedLoan():
                            high=round(max(rate), 2)
                            )
 
-
     source = ColumnDataSource(data=dict(
         x=state_xs,
         y=state_ys,
@@ -224,10 +223,9 @@ def templateUsMapPercAcceptedLoan():
 
 
 def templateRateCorrelation(state):
-
     DEFAULT_X = ['Amount', 'Income', 'DebtToIncomeRatio']
 
-    dati = pd.read_csv(DATA + 'accepted_less_col_small_' + state +'.csv', header=0)
+    dati = pd.read_csv(DATA + 'accepted_less_col_small_' + state + '.csv', header=0)
 
     amnt = dati['amnt']
     income = dati['income']
@@ -236,7 +234,6 @@ def templateRateCorrelation(state):
 
     source = ColumnDataSource(
         data=dict(x=amnt, y=rate, Amount=amnt, Income=income, DebtToIncomeRatio=dti))
-
 
     codex = """
             var data = source.get('data');
@@ -286,8 +283,79 @@ def templateRateCorrelation(state):
     #     """
 
 
+def templateAcceptedLoanPerRegion():
+    pass
+
+
+def getRegionFromBoundaries():
+    boundaries = open(DATA + 'boundaries.json').read()
+    states = json.loads(boundaries)
+
+    region = [states[code]["region"] for code in states]
+    state = states.keys()
+
+    df = pd.DataFrame({'region': region, "state": state})
+    df.to_csv(DATA_LOCAL + "region-state.csv", index=False)
+
+
+def countRateOverTime():
+    # data = pd.read_csv(DATA_LOCAL + 'accepted_refused_ds.csv')
+    # region = pd.read_csv(DATA_LOCAL + 'region-state.csv')
+    # region = region.set_index('state')
+    # print region.loc['DC'][0]
+    #
+    # reg = [region.loc[st][0] if (st != 'AK' and st != 'HI') else 'out' for st in data['state']]
+    # print len(reg)
+    # print len(data['loan'])
+    #
+    # small_ds = pd.DataFrame({'region': reg,
+    #                          'loan': data['loan'],
+    #                          'date': data['date']})
+    #
+    # small_ds.to_csv('region_loan.csv', index=False)
+
+
+
+    # ds = pd.read_csv(DATA_LOCAL + 'region_loan.csv')
+    # aggregation = ds[['region', 'loan', 'date']].groupby(['region', 'date'])
+    # print 'There are ' + str(len(aggregation)) + ' different region-state'
+    # new_ds = aggregation.agg(['count', 'sum'])
+    # new_ds.reset_index(inplace=True)
+    # print new_ds
+    # print new_ds.columns
+    # # new_ds.columns.droplevel()
+    # # print new_ds
+    # # print new_ds.columns
+    # new_ds.columns = ['region', 'date', 'requests', 'acc_loan']
+    # print new_ds
+    # new_ds['perc_acc_loan'] = new_ds.acc_loan / new_ds.requests*100.0
+    # del new_ds['requests']
+    # del new_ds['acc_loan']
+    # new_ds.to_csv(DATA_LOCAL + 'perc_acc_loan_per_region_date.csv', index=False)
+
+    # ds = pd.read_csv(DATA_LOCAL + 'perc_acc_loan_per_region_date.csv')
+    # dist_region = set(ds.region.values)
+    # dist_date = set(ds.date.values)
+    # ordered_date = sorted(dist_date, key=lambda x: datetime.strptime(x, '%b-%Y'))
+    # col = ['date'] + list(dist_region)
+    # my_ds = pd.DataFrame(columns=col)
+    #
+    # for od in ordered_date:
+    #     new_row = [od]
+    #     for dr in dist_region:
+    #         perc = round(ds[(ds.date == od) & (ds.region == dr)]['perc_acc_loan'].values[0], 3)
+    #         new_row.append(perc)
+    #
+    #     my_ds = pd.concat([my_ds, pd.DataFrame([new_row], columns=col)])
+    #
+    # my_ds.to_csv(DATA_LOCAL + 'perc_acc_loan_per_region_date_compact.csv', index=False)
+
+    pass
 
 # def createSmallDataset():
+#
+#     from sklearn.model_selection import train_test_split
+#
 #     data = pd.read_csv(DATA_LOCAL + 'accepted.csv', header=0)
 #     print data.columns.values
 #
@@ -298,8 +366,9 @@ def templateRateCorrelation(state):
 #
 #     X_train, X_test = train_test_split(small, test_size=1.0 / 26, random_state=101)
 #
-#     dist_state = set(X_test.state.values)
+#     dist_state = set(X_train.state.values)
 #
 #     for s in dist_state:
-#         my_set = X_test[X_test.state == s]
-#         my_set.to_csv(DATA_LOCAL + 'accepted_less_col_small_' + s + '.csv', index=False)
+#         if s == 'IA' or s == 'ID':
+#             my_set = X_train[X_train.state == s]
+#             my_set.to_csv(DATA_LOCAL + 'accepted_less_col_small_' + s + '.csv', index=False)

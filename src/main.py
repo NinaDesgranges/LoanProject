@@ -23,3 +23,6 @@ from settings import DATA
 
 # da.templateRateCorrelation()
 
+# da.getRegionFromBoundaries()
+
+da.countRateOverTime()
