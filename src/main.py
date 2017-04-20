@@ -23,4 +23,3 @@ from settings import DATA
 
 # da.templateRateCorrelation()
 
-da.testCorrelation()
