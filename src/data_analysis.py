@@ -264,7 +264,7 @@ def templateRateCorrelation():
     rate = dati['rate']
 
     source = ColumnDataSource(
-        data=dict(x=amnt, Amount=amnt, Income=income, DebtToIncomeRatio=dti, y=rate, Rate=rate))
+        data=dict(x=amnt, y=rate, Amount=amnt, Income=income, DebtToIncomeRatio=dti, Rate=rate))
 
     code = """
             var data = source.get('data');
@@ -278,22 +278,36 @@ def templateRateCorrelation():
             source.trigger('change');
         """
 
-    callbackx = CustomJS(args=dict(source=source), code=code.format(var="x"))
-    callbacky = CustomJS(args=dict(source=source), code=code.format(var="y"))
+    codex = """
+            var data = source.get('data');
+            data['x'] = data[cb_obj.get('value')];//
+            // var r = data[cb_obj.get('value')];
+            // var {var} = data[cb_obj.get('value')];
+            // //window.alert( "{var} " + cb_obj.get('value') + {var}  );
+            // for (i = 0; i < r.length; i++) {{
+            //     {var}[i] = r[i] ;
+            //     data['{var}'][i] = r[i];
+            // }}
+            source.trigger('change');
+        """
+
+
+    callbackx = CustomJS(args=dict(source=source), code=codex)
+    # callbacky = CustomJS(args=dict(source=source), code=code.format(var="y"))
 
     plot = Figure(title=None)
 
     # Make a line and connect to data source
     plot.circle(x="x", y="y", line_color="#F46D43", line_width=6, line_alpha=0.6, source=source)
 
-    yaxis_select = Select(title="Y axis:", value="Rate",
-                          options=DEFAULT_X, callback=callbacky)
+    # yaxis_select = Select(title="Y axis:", value="Rate",
+    #                       options=DEFAULT_X, callback=callbacky)
 
     xaxis_select = Select(title="X axis:", value="Amount",
                           options=DEFAULT_X, callback=callbackx)
 
     # Layout widgets next to the plot
-    controls = VBox(yaxis_select, xaxis_select)
+    controls = VBox(xaxis_select)
 
     layout = HBox(controls, plot, width=800)
 
