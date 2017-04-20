@@ -169,13 +169,14 @@ def templateUsMapPercAcceptedLoan():
     state_ys = [states[code]["lats"] for code in states]
     rate = [new_ds.perc_acc_loan[code] * 100 for code in states]
     name = [states[code]["name"] + '-' + code for code in states]
+    urls = ['http://theloan-app.herokuapp.com/info_' + str(code) for code in states]
 
     cm = LinearColorMapper(palette=['#deebf7', '#c6dbef', '#9ecae1', '#6baed6', '#4292c6', '#2171b5', '#084594'],
                            low=round(min(rate), 2),
                            high=round(max(rate), 2)
                            )
 
-    urls = ['http://theloan-app.herokuapp.com/info_CA'] * len(state_xs)
+
     source = ColumnDataSource(data=dict(
         x=state_xs,
         y=state_ys,
@@ -222,11 +223,11 @@ def templateUsMapPercAcceptedLoan():
     return script, div
 
 
-def templateRateCorrelation():
+def templateRateCorrelation(state):
 
     DEFAULT_X = ['Amount', 'Income', 'DebtToIncomeRatio']
 
-    dati = pd.read_csv(DATA + 'accepted_less_col_small_AK.csv', header=0)
+    dati = pd.read_csv(DATA + 'accepted_less_col_small_' + state +'.csv', header=0)
 
     amnt = dati['amnt']
     income = dati['income']

@@ -50,14 +50,10 @@ def index():
 
         script, div = da.templateUsMapPercAcceptedLoan()
 
-        script_corr, div_corr = da.templateRateCorrelation()
-
         return render_template(
-            'new_index_map.html',
+            'us_map.html',
             plot_script=script,
             plot_div=div,
-            plot_script_corr=script_corr,
-            plot_div_corr=div_corr,
             js_resources=js_resources,
             css_resources=css_resources
         )
@@ -74,7 +70,7 @@ def index():
         # script, div = components(p1)
 
         return render_template(
-            'new_index_map.html',
+            'us_map.html',
             # plot_script=script,
             # plot_div=div,
             js_resources=js_resources,
@@ -84,10 +80,21 @@ def index():
         # return encode_utf8(html)
 
 
-@app.route('/info_CA/')
-def info_CA():
-    return 'Test CA'
+@app.route('/info_<state>/')
+def info_CA(state):
 
+    js_resources = INLINE.render_js()
+    css_resources = INLINE.render_css()
+
+    script_corr, div_corr = da.templateRateCorrelation(state)
+
+    return render_template(
+        'info_state.html',
+        plot_script_corr=script_corr,
+        plot_div_corr=div_corr,
+        js_resources=js_resources,
+        css_resources=css_resources
+    )
 
 
 if __name__ == '__main__':
