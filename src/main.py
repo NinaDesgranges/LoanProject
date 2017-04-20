@@ -21,4 +21,6 @@ from settings import DATA
 
 # da.createSmallDataset()
 
-da.templateRateCorrelation()
+# da.templateRateCorrelation()
+
+da.testCorrelation()

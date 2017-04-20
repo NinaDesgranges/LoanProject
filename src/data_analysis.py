@@ -13,7 +13,7 @@ from flask import Flask, render_template, request, redirect
 from bokeh.embed import components
 from bokeh.resources import INLINE
 from bokeh.util.string import encode_utf8
-from sklearn.model_selection import train_test_split
+# from sklearn.model_selection import train_test_split
 from bokeh.models.callbacks import CustomJS
 from bokeh.models.widgets import Select
 from bokeh.layouts import row, column
@@ -30,6 +30,13 @@ from bokeh.models import (
 )
 from bokeh.palettes import Viridis6 as palette
 from bokeh.plotting import figure
+from bokeh.models import ColumnDataSource
+from bokeh.plotting import Figure
+
+from bokeh.models.widgets import Select, TextInput
+from bokeh.models.layouts import HBox, VBox
+import bokeh.io
+from bokeh.models import CustomJS
 
 ACC_REF_HEADER = ['title', 'amnt', 'zip', 'state', 'emp_len', 'dti', 'date', 'loan']
 
@@ -119,7 +126,7 @@ def createDatasetForAcceptedVsRefused():
     print 'Shape before removing values: ' + str(new_dataset.shape)
     new_dataset = new_dataset[new_dataset.amnt != 0]
     new_dataset = new_dataset[(new_dataset.dti < pow(10, 7)) & (new_dataset.dti != -1) & (new_dataset.dti != 9999) & (
-    new_dataset.dti != 99999)]
+        new_dataset.dti != 99999)]
 
     print 'Shape after removing values: ' + str(new_dataset.shape)
 
@@ -166,7 +173,6 @@ def templateUsMapPercAcceptedLoan():
                            high=round(max(rate), 2)
                            )
 
-
     source = ColumnDataSource(data=dict(
         x=state_xs,
         y=state_ys,
@@ -208,44 +214,202 @@ def templateUsMapPercAcceptedLoan():
 
     return script, div
 
+
 def templateRateCorrelation():
+    # DEFAULT_X = ['Amount', 'Income', 'DebtToIncomeRatio']
+    #
+    # dati = pd.read_csv(DATA + 'accepted_less_col_small.csv', header=0)
+    #
+    # source = ColumnDataSource(data=dict(x=dati['amnt'], Amount=dati['amnt'], Income=dati['income'], DebtToIncomeRatio=dati['dti'], y=dati['rate']))
+    #
+    # corr = figure(plot_width=800, plot_height=509, tools='pan,wheel_zoom,reset')
+    #
+    # corr.circle(x='x', y='y', size=2, source=source
+    #             # ,selection_color="orange", alpha=0.6, nonselection_alpha=0.1, selection_alpha=0.4
+    #             )
+    #
+    # callback = CustomJS(args=dict(source=source),
+    #                     code="""
+    #                     var data = source.data;
+    #                     var r = data[cb_obj.value];
+    #                     var x = data[cb_obj.value];
+    #                     for (i = 0; i<r.length: i++){{
+    #                         x[i] = r[i];
+    #                         data['x'][i] = r[i];
+    #                     }}
+    #                     y = data['y']:
+    #
+    #                     source.trigger('change');
+    #
+    #                     """)
+    #
+    # select_x = Select(value='Amount', options=DEFAULT_X, callback=callback)
+    # # select_x.js_on_change('value', callback)
+    #
+    #
+    # layout = column(select_x, corr)
+    #
+    # script_corr, div_corr = components(layout)
+    #
+    # # return script_corr, div_corr
 
-    DEFAULT_X = ['Amount', 'Income', 'Debt To Income Ratio']
+    # show(layout)
+    DEFAULT_X = ['Rate', 'Amount', 'Income', 'DebtToIncomeRatio']
 
-    data = pd.read_csv(DATA + 'accepted_less_col_small.csv', header=0)
+    dati = pd.read_csv(DATA + 'accepted_less_col_small.csv', header=0)
 
-    select_x= Select(value='Amount', options=DEFAULT_X)
+    amnt = dati['amnt']
+    income = dati['income']
+    dti = dati['dti']
+    rate = dati['rate']
 
-    source = ColumnDataSource(data=dict(x=data['amnt'], y=data['rate']))
+    source = ColumnDataSource(
+        data=dict(x=amnt, Amount=amnt, Income=income, DebtToIncomeRatio=dti, y=rate, Rate=rate))
 
-    corr = figure(plot_width=800, plot_height=509,
-                  tools='pan,wheel_zoom,reset')
+    code = """
+            var data = source.get('data');
+            var r = data[cb_obj.get('value')];
+            var {var} = data[cb_obj.get('value')];
+            //window.alert( "{var} " + cb_obj.get('value') + {var}  );
+            for (i = 0; i < r.length; i++) {{
+                {var}[i] = r[i] ;
+                data['{var}'][i] = r[i];
+            }}
+            source.trigger('change');
+        """
 
-    corr.circle('x', 'y', size=2, source=source
-                # ,selection_color="orange", alpha=0.6, nonselection_alpha=0.1, selection_alpha=0.4
-                )
-    layout = column(select_x, corr)
+    callbackx = CustomJS(args=dict(source=source), code=code.format(var="x"))
+    callbacky = CustomJS(args=dict(source=source), code=code.format(var="y"))
+
+    plot = Figure(title=None)
+
+    # Make a line and connect to data source
+    plot.circle(x="x", y="y", line_color="#F46D43", line_width=6, line_alpha=0.6, source=source)
+
+    yaxis_select = Select(title="Y axis:", value="Rate",
+                          options=DEFAULT_X, callback=callbacky)
+
+    xaxis_select = Select(title="X axis:", value="Amount",
+                          options=DEFAULT_X, callback=callbackx)
+
+    # Layout widgets next to the plot
+    controls = VBox(yaxis_select, xaxis_select)
+
+    layout = HBox(controls, plot, width=800)
 
     script_corr, div_corr = components(layout)
 
     return script_corr, div_corr
 
 
-    # show(layout)
+# def createSmallDataset():
+#     data = pd.read_csv(DATA_LOCAL + 'accepted.csv', header=0)
+#     print data.columns.values
+#
+#     small = data[['loan_amnt', 'annual_inc', 'dti', 'int_rate', 'addr_state']]
+#     small.columns = ['amnt', 'income', 'dti', 'rate', 'state']
+#     small['rate'] = small['rate'].map(lambda x: str(x).replace('%', '').strip())
+#     small.to_csv(DATA_LOCAL + 'accepted_less_col.csv', index=False)
+#
+#     X_train, X_test = train_test_split(small, test_size=1.0 / 26, random_state=101)
+#
+#     X_test.to_csv(DATA_LOCAL + 'accepted_less_col_small.csv', index=False)
 
-def createSmallDataset():
-
-    data = pd.read_csv(DATA_LOCAL + 'accepted.csv', header=0)
-    print data.columns.values
-
-    small = data[['loan_amnt', 'annual_inc', 'dti', 'int_rate', 'addr_state']]
-    small.columns = ['amnt', 'income', 'dti', 'rate', 'state']
-    small['rate'] = small['rate'].map(lambda x: str(x).replace('%', '').strip())
-    small.to_csv(DATA_LOCAL + 'accepted_less_col.csv', index=False)
-
-    X_train, X_test = train_test_split(small, test_size=1.0/26, random_state=101)
-
-    X_test.to_csv(DATA_LOCAL + 'accepted_less_col_small.csv', index=False)
-
+def testCorrelation():
 
 
+    DEFAULT_X = ['Rate', 'Amount', 'Income', 'DebtToIncomeRatio']
+
+    dati = pd.read_csv(DATA + 'accepted_less_col_small.csv', header=0)
+
+    amnt = dati['amnt']
+    income = dati['income']
+    dti = dati['dti']
+    rate = dati['rate']
+
+    source = ColumnDataSource(
+        data=dict(x=amnt, Amount=amnt, Income=income, DebtToIncomeRatio=dti, y=rate, Rate=rate))
+
+    code = """
+            var data = source.get('data');
+            var r = data[cb_obj.get('value')];
+            var {var} = data[cb_obj.get('value')];
+            //window.alert( "{var} " + cb_obj.get('value') + {var}  );
+            for (i = 0; i < r.length; i++) {{
+                {var}[i] = r[i] ;
+                data['{var}'][i] = r[i];
+            }}
+            source.trigger('change');
+        """
+
+    callbackx = CustomJS(args=dict(source=source), code=code.format(var="x"))
+    callbacky = CustomJS(args=dict(source=source), code=code.format(var="y"))
+
+    plot = Figure(title=None)
+
+    # Make a line and connect to data source
+    plot.circle(x="x", y="y", line_color="#F46D43", line_width=6, line_alpha=0.6, source=source)
+
+
+
+    yaxis_select = Select(title="Y axis:", value="Rate",
+                          options=DEFAULT_X, callback=callbacky)
+
+    xaxis_select = Select(title="X axis:", value="Amount",
+                          options=DEFAULT_X, callback=callbackx)
+
+    # Layout widgets next to the plot
+    controls = VBox(yaxis_select, xaxis_select)
+
+    layout = HBox(controls, plot, width=800)
+
+    bokeh.io.show(layout)
+
+    # N = 200
+    #
+    # # Define the data to be used
+    # x = np.linspace(0, 4. * np.pi, N)
+    # y = 3 * np.cos(2 * np.pi * x + np.pi * 0.2)
+    # z = 0.5 * np.sin(2 * np.pi * 0.8 * x + np.pi * 0.4)
+    #
+    # source = ColumnDataSource(data={'x': x, 'y': y, 'X': x, 'cos': y, 'sin': z})
+    #
+    #
+    #
+    # code = """
+    #         var data = source.get('data');
+    #         var r = data[cb_obj.get('value')];
+    #         var {var} = data[cb_obj.get('value')];
+    #         //window.alert( "{var} " + cb_obj.get('value') + {var}  );
+    #         for (i = 0; i < r.length; i++) {{
+    #             {var}[i] = r[i] ;
+    #             data['{var}'][i] = r[i];
+    #         }}
+    #         source.trigger('change');
+    #     """
+    #
+    # callbackx = CustomJS(args=dict(source=source), code=code.format(var="x"))
+    # callbacky = CustomJS(args=dict(source=source), code=code.format(var="y"))
+    #
+    # # create a new plot
+    # plot = Figure(title=None)
+    #
+    # # Make a line and connect to data source
+    # plot.line(x="x", y="y", line_color="#F46D43", line_width=6, line_alpha=0.6, source=source)
+    #
+    # # Add list boxes for selecting which columns to plot on the x and y axis
+    # yaxis_select = Select(title="Y axis:", value="cos",
+    #                       options=['X', 'cos', 'sin'], callback=callbacky)
+    #
+    # xaxis_select = Select(title="X axis:", value="x",
+    #                       options=['X', 'cos', 'sin'], callback=callbackx)
+    #
+    # # Text input as a title
+    # text = TextInput(title="title", value='my sine wave plotter')
+    #
+    # # Layout widgets next to the plot
+    # controls = VBox(text, yaxis_select, xaxis_select)
+    #
+    # layout = HBox(controls, plot, width=800)
+    #
+    # bokeh.io.show(layout)
