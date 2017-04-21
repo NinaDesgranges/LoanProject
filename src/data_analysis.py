@@ -21,6 +21,7 @@ from bokeh.models import (
     HoverTool,
     ColorMapper,
     LinearColorMapper,
+    NumeralTickFormatter,
     ColorBar,
     FuncTickFormatter,
     FixedTicker,
@@ -191,6 +192,8 @@ def templateUsMapPercAcceptedLoan():
                plot_width=800,
                plot_height=509,
                tools=TOOLS)
+    p.yaxis.axis_label = 'Latitude'
+    p.xaxis.axis_label = 'Longitude'
 
     p.patches('x', 'y', source=source,
               fill_color={'field': 'rate', 'transform': cm},
@@ -223,17 +226,18 @@ def templateUsMapPercAcceptedLoan():
 
 
 def templateRateCorrelation(state):
-    DEFAULT_X = ['Amount', 'Income', 'DebtToIncomeRatio']
+    DEFAULT_X = ['Amount Requested', 'Annual Income', 'Debt To Income Ratio']
 
     dati = pd.read_csv(DATA + 'accepted_less_col_small_' + state + '.csv', header=0)
 
     amnt = dati['amnt']
     income = dati['income']
     dti = dati['dti']
-    rate = dati['rate']
+    rate = dati['rate']/100
 
     source = ColumnDataSource(
-        data=dict(x=amnt, y=rate, Amount=amnt, Income=income, DebtToIncomeRatio=dti))
+        data={'x': amnt, 'y': rate, 'Amount Requested': amnt, 'Annual Income': income, 'Debt To Income Ratio': dti}
+    )
 
     codex = """
             var data = source.get('data');
@@ -250,15 +254,14 @@ def templateRateCorrelation(state):
 
     callbackx = CustomJS(args=dict(source=source), code=codex)
 
-    plot = Figure(title=None)
+    plot = Figure(title=None, height=400, width=600)
 
     # Make a line and connect to data source
-    plot.circle(x="x", y="y", line_color="#F46D43", line_width=6, line_alpha=0.6, source=source)
+    plot.circle(x="x", y="y", line_color="#2ca02c", line_width=6, line_alpha=0.6, source=source)
+    plot.yaxis.axis_label = 'Loan Rate'
+    plot.yaxis[0].formatter = NumeralTickFormatter(format="0.0%")
 
-    # yaxis_select = Select(title="Y axis:", value="Rate",
-    #                       options=DEFAULT_X, callback=callbacky)
-
-    xaxis_select = Select(title="X axis:", value="Amount",
+    xaxis_select = Select(title="Label X axis:", value="Amount",
                           options=DEFAULT_X, callback=callbackx)
 
     # Layout widgets next to the plot
@@ -270,31 +273,19 @@ def templateRateCorrelation(state):
 
     return script_corr, div_corr
 
-    # code = """
-    #         var data = source.get('data');
-    #         var r = data[cb_obj.get('value')];
-    #         var {var} = data[cb_obj.get('value')];
-    #         //window.alert( "{var} " + cb_obj.get('value') + {var}  );
-    #         for (i = 0; i < r.length; i++) {{
-    #             {var}[i] = r[i] ;
-    #             data['{var}'][i] = r[i];
-    #         }}
-    #         source.trigger('change');
-    #     """
-
 
 def templateAcceptedLoanPerRegion():
     LABELS = ["Central", "Mid - Atlantic", "NorthEast", "NorthWest", "South", "SouthEast", "SouthWest"]
     colors = ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd', '#8c564b', '#17becf']
     data = pd.read_csv(DATA + 'perc_acc_loan_per_region_date_compact.csv')
 
-    central = data['Central']
-    midatl = data['Mid-Atlantic']
-    northe = data['Northeast']
-    northw = data['Northwest']
-    south = data['South']
-    southe = data['Southeast']
-    southw = data['Southwest']
+    central = data['Central']/100
+    midatl = data['Mid-Atlantic']/100
+    northe = data['Northeast']/100
+    northw = data['Northwest']/100
+    south = data['South']/100
+    southe = data['Southeast']/100
+    southw = data['Southwest']/100
     date = data['date']
 
     source = ColumnDataSource(data=dict(x=[datetime.strptime(d, '%b-%Y') for d in date.values],
@@ -316,6 +307,9 @@ def templateAcceptedLoanPerRegion():
     p4 = p.line('x', 'South', source=source, legend="South", line_color=colors[4], **props)
     p5 = p.line('x', 'Southeast', source=source, legend="SouthEast", line_color=colors[5], **props)
     p6 = p.line('x', 'Southwest', source=source, legend="SouthWest", line_color=colors[6], **props)
+
+    p.yaxis.axis_label = 'Percentage of accepted loans'
+    p.yaxis[0].formatter = NumeralTickFormatter(format="0.0%")
 
     checkbox = CheckboxGroup(
         labels=LABELS,
@@ -394,8 +388,8 @@ def templateAcceptedLoanPerRegion():
 
     q = figure(title="",
                toolbar_location=None,
-               plot_width=270,
-               plot_height=150
+               plot_width=300,
+               plot_height=160
                )
     q.xaxis.visible = False
     q.yaxis.visible = False
