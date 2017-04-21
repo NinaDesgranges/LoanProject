@@ -307,8 +307,8 @@ def templateAcceptedLoanPerRegion():
                                         Southwest=southw
                                         ))
 
-    props = dict(line_width=4, line_alpha=0.7)
-    p = Figure(x_axis_type="datetime", width=1200, height=400)
+    props = dict(line_width=4, line_alpha=0.8)
+    p = Figure(x_axis_type="datetime", width=1200, height=380)
     p0 = p.line('x', 'Central', source=source, legend="Central", line_color=colors[0], **props)
     p1 = p.line('x', 'MidAtlantic', source=source, legend="Mid - Atlantic", line_color=colors[1], **props)
     p2 = p.line('x', 'Northeast', source=source, legend="NorthEast", line_color=colors[2], **props)
@@ -322,34 +322,6 @@ def templateAcceptedLoanPerRegion():
         inline=True,
         active=[0, 1, 2, 3, 4, 5, 6],
         width=800)
-
-    code = """
-    p0.visible = 0 in checkbox.active;
-    p1.visible = 1 in checkbox.active;
-    p2.visible = 2 in checkbox.active;
-    p3.visible = 3 in checkbox.active;
-    p4.visible = 4 in checkbox.active;
-    p5.visible = 5 in checkbox.active;
-    p6.visible = 6 in checkbox.active;
-    """
-
-
-    code = """
-
-    var __indexOf = Array.prototype.indexOf || function(item) {
-      for (var i = 0, l = this.length; i < l; i++) {
-        if (this[i] === item) return i;
-      }
-      return -1;
-    };
-    p0.visible = __indexOf.call(checkbox.active, 0) >= 0;
-    p1.visible = __indexOf.call(checkbox.active, 1) >= 0;
-    p2.visible = __indexOf.call(checkbox.active, 2) >= 0;
-    p3.visible = __indexOf.call(checkbox.active, 3) >= 0;
-    p4.visible = __indexOf.call(checkbox.active, 4) >= 0;
-    p6.visible = __indexOf.call(checkbox.active, 6) >= 0;
-
-    """
 
     code = """
         //console.log(cb_obj.active);
@@ -382,9 +354,63 @@ def templateAcceptedLoanPerRegion():
     """
 
     checkbox.callback = CustomJS(args=dict(p0=p0, p1=p1, p2=p2, p3=p3, p4=p4, p5=p5, p6=p6, checkbox=checkbox),
-                                 code=code) #, lang='coffeescript'
+                                 code=code)
 
-    layout = VBox(checkbox, p)
+    boundaries = open(DATA + 'boundaries.json').read()
+    states = json.loads(boundaries)
+    region_state = pd.read_csv(DATA + 'region-state.csv', header=0)
+    region_state = region_state.set_index('state')
+
+    state_xs = [states[code]["lons"] for code in states]
+    state_ys = [states[code]["lats"] for code in states]
+    name = states.keys()
+
+    colors_state = []
+
+    for i in name:
+        if i != 'AK' and i != 'HI':
+            reg = region_state.loc[i]['region']
+            if reg == "Central":
+                colors_state.append(colors[0])
+            elif reg == "Mid-Atlantic":
+                colors_state.append(colors[1])
+            elif reg == "Northeast":
+                colors_state.append(colors[2])
+            elif reg == "Northwest":
+                colors_state.append(colors[3])
+            elif reg == "South":
+                colors_state.append(colors[4])
+            elif reg == "Southeast":
+                colors_state.append(colors[5])
+            elif reg == "Southwest":
+                colors_state.append(colors[6])
+
+    source = ColumnDataSource(data=dict(
+        x=state_xs,
+        y=state_ys,
+        name=name,
+        colors=colors_state,
+    ))
+
+    q = figure(title="",
+               toolbar_location=None,
+               plot_width=270,
+               plot_height=150
+               )
+    q.xaxis.visible = False
+    q.yaxis.visible = False
+    q.xgrid.grid_line_color = None
+    q.ygrid.grid_line_color = None
+    q.min_border_left = False
+    q.min_border_right = False
+    q.min_border_top = False
+    q.min_border_bottom = False
+
+    q.patches('x', 'y', source=source,
+              fill_color='colors',
+              fill_alpha=0.9, line_color="white", line_width=0.1)
+
+    layout = VBox(q, checkbox, p)
 
     # show(layout)
 
