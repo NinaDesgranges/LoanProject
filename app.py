@@ -58,8 +58,6 @@ def index():
             css_resources=css_resources
         )
 
-    # return encode_utf8(html)
-
     else:
 
         # grab the static resources
@@ -81,7 +79,7 @@ def index():
 
 
 @app.route('/info_<state>/')
-def info_CA(state):
+def info_state(state):
 
     js_resources = INLINE.render_js()
     css_resources = INLINE.render_css()
@@ -92,6 +90,22 @@ def info_CA(state):
         'info_state.html',
         plot_script_corr=script_corr,
         plot_div_corr=div_corr,
+        js_resources=js_resources,
+        css_resources=css_resources
+    )
+
+@app.route('/perc_over_time')
+def perc_over_time():
+
+    js_resources = INLINE.render_js()
+    css_resources = INLINE.render_css()
+
+    script_time, div_time = da.templateAcceptedLoanPerRegion()
+
+    return render_template(
+        'perc_over_time.html',
+        plot_script=script_time,
+        plot_div=div_time,
         js_resources=js_resources,
         css_resources=css_resources
     )

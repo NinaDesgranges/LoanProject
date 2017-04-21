@@ -4,7 +4,7 @@ from settings import DATA, DATA_LOCAL
 import json
 import numpy as np
 from bokeh.io import show
-# from bokeh.palettes import Spectral6, viridis, Blues9
+
 # from bokeh.sampledata import us_states
 # from bokeh.sampledata.us_states import data as sta
 from bokeh.sampledata import us_states
@@ -34,7 +34,7 @@ from bokeh.plotting import figure
 from bokeh.models import ColumnDataSource
 from bokeh.plotting import Figure
 
-from bokeh.models.widgets import Select, TextInput
+from bokeh.models.widgets import Select, CheckboxGroup
 from bokeh.models.layouts import HBox, VBox
 import bokeh.io
 from bokeh.models import CustomJS
@@ -284,7 +284,113 @@ def templateRateCorrelation(state):
 
 
 def templateAcceptedLoanPerRegion():
-    pass
+    LABELS = ["Central", "Mid - Atlantic", "NorthEast", "NorthWest", "South", "SouthEast", "SouthWest"]
+    colors = ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd', '#8c564b', '#17becf']
+    data = pd.read_csv(DATA + 'perc_acc_loan_per_region_date_compact.csv')
+
+    central = data['Central']
+    midatl = data['Mid-Atlantic']
+    northe = data['Northeast']
+    northw = data['Northwest']
+    south = data['South']
+    southe = data['Southeast']
+    southw = data['Southwest']
+    date = data['date']
+
+    source = ColumnDataSource(data=dict(x=[datetime.strptime(d, '%b-%Y') for d in date.values],
+                                        Central=central,
+                                        MidAtlantic=midatl,
+                                        Northeast=northe,
+                                        Northwest=northw,
+                                        South=south,
+                                        Southeast=southe,
+                                        Southwest=southw
+                                        ))
+
+    props = dict(line_width=4, line_alpha=0.7)
+    p = Figure(x_axis_type="datetime", width=1200, height=400)
+    p0 = p.line('x', 'Central', source=source, legend="Central", line_color=colors[0], **props)
+    p1 = p.line('x', 'MidAtlantic', source=source, legend="Mid - Atlantic", line_color=colors[1], **props)
+    p2 = p.line('x', 'Northeast', source=source, legend="NorthEast", line_color=colors[2], **props)
+    p3 = p.line('x', 'Northwest', source=source, legend="NorthWest", line_color=colors[3], **props)
+    p4 = p.line('x', 'South', source=source, legend="South", line_color=colors[4], **props)
+    p5 = p.line('x', 'Southeast', source=source, legend="SouthEast", line_color=colors[5], **props)
+    p6 = p.line('x', 'Southwest', source=source, legend="SouthWest", line_color=colors[6], **props)
+
+    checkbox = CheckboxGroup(
+        labels=LABELS,
+        inline=True,
+        active=[0, 1, 2, 3, 4, 5, 6],
+        width=800)
+
+    code = """
+    p0.visible = 0 in checkbox.active;
+    p1.visible = 1 in checkbox.active;
+    p2.visible = 2 in checkbox.active;
+    p3.visible = 3 in checkbox.active;
+    p4.visible = 4 in checkbox.active;
+    p5.visible = 5 in checkbox.active;
+    p6.visible = 6 in checkbox.active;
+    """
+
+
+    code = """
+
+    var __indexOf = Array.prototype.indexOf || function(item) {
+      for (var i = 0, l = this.length; i < l; i++) {
+        if (this[i] === item) return i;
+      }
+      return -1;
+    };
+    p0.visible = __indexOf.call(checkbox.active, 0) >= 0;
+    p1.visible = __indexOf.call(checkbox.active, 1) >= 0;
+    p2.visible = __indexOf.call(checkbox.active, 2) >= 0;
+    p3.visible = __indexOf.call(checkbox.active, 3) >= 0;
+    p4.visible = __indexOf.call(checkbox.active, 4) >= 0;
+    p6.visible = __indexOf.call(checkbox.active, 6) >= 0;
+
+    """
+
+    code = """
+        //console.log(cb_obj.active);
+        p0.visible = false;
+        p1.visible = false;
+        p2.visible = false;
+        p3.visible = false;
+        p4.visible = false;
+        p5.visible = false;
+        p6.visible = false;
+
+        for (i in checkbox.active) {
+            //console.log(cb_obj.active[i]);
+            if (checkbox.active[i] == 0) {
+                p0.visible = true;
+            } else if (checkbox.active[i] == 1) {
+                p1.visible = true;
+            } else if (checkbox.active[i] == 2) {
+                p2.visible = true;
+            } else if (checkbox.active[i] == 3) {
+                p3.visible = true;
+            } else if (checkbox.active[i] == 4) {
+                p4.visible = true;
+            } else if (checkbox.active[i] == 5) {
+                p5.visible = true;
+            } else if (checkbox.active[i] == 6) {
+                p6.visible = true;
+            }
+        }
+    """
+
+    checkbox.callback = CustomJS(args=dict(p0=p0, p1=p1, p2=p2, p3=p3, p4=p4, p5=p5, p6=p6, checkbox=checkbox),
+                                 code=code) #, lang='coffeescript'
+
+    layout = VBox(checkbox, p)
+
+    # show(layout)
+
+    script, div = components(layout)
+
+    return script, div
 
 
 def getRegionFromBoundaries():
@@ -352,6 +458,7 @@ def countRateOverTime():
 
     pass
 
+
 # def createSmallDataset():
 #
 #     from sklearn.model_selection import train_test_split
@@ -372,3 +479,33 @@ def countRateOverTime():
 #         if s == 'IA' or s == 'ID':
 #             my_set = X_train[X_train.state == s]
 #             my_set.to_csv(DATA_LOCAL + 'accepted_less_col_small_' + s + '.csv', index=False)
+
+def test():
+    import numpy as np
+
+    from bokeh.io import output_file, show
+    from bokeh.layouts import row
+    from bokeh.palettes import Viridis3
+    from bokeh.plotting import figure
+    from bokeh.models import CheckboxGroup, CustomJS
+
+    output_file("line_on_off.html", title="line_on_off.py example")
+
+    p = figure()
+    props = dict(line_width=4, line_alpha=0.7)
+    x = np.linspace(0, 4 * np.pi, 100)
+    l0 = p.line(x, np.sin(x), color=Viridis3[0], legend="Line 0", **props)
+    l1 = p.line(x, 4 * np.cos(x), color=Viridis3[1], legend="Line 1", **props)
+    l2 = p.line(x, np.tan(x), color=Viridis3[2], legend="Line 2", **props)
+
+    checkbox = CheckboxGroup(labels=["Line 0", "Line 1", "Line 2"],
+                             active=[0, 1, 2], width=100)
+    checkbox.callback = CustomJS(args=dict(l0=l0, l1=l1, l2=l2, checkbox=checkbox),
+                                 lang="coffeescript", code="""
+    l0.visible = 0 in checkbox.active;
+    l1.visible = 1 in checkbox.active;
+    l2.visible = 2 in checkbox.active;
+    """)
+
+    layout = row(checkbox, p)
+    show(layout)

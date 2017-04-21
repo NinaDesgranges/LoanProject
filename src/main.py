@@ -25,4 +25,10 @@ from settings import DATA
 
 # da.getRegionFromBoundaries()
 
-da.countRateOverTime()
+# da.countRateOverTime()
+
+da.templateAcceptedLoanPerRegion()
+
+# da.test()
+
+# da.templateRateCorrelation('CA')
