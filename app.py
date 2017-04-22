@@ -91,7 +91,8 @@ def info_state(state):
         plot_script_corr=script_corr,
         plot_div_corr=div_corr,
         js_resources=js_resources,
-        css_resources=css_resources
+        css_resources=css_resources,
+        state=state
     )
 
 @app.route('/perc_over_time')

@@ -147,15 +147,18 @@ def getInfo():
 
 
 def templateUsMapPercAcceptedLoan():
-    # ds = pd.read_csv(DATA + 'accepted_refused_ds.csv', header=0)
+    # ds = pd.read_csv(DATA_LOCAL + 'accepted_refused_ds.csv', header=0)
     #
-    # aggregationState = ds[['state', 'loan']].groupby(['state'])
+    # aggregationState = ds[['state', 'loan', 'dti', 'amnt']].groupby(['state'])
     # print 'There are ' + str(len(aggregationState)) + ' different states'
     # new_ds = aggregationState.agg(['count', 'sum'])
     # new_ds.reset_index(level=0, inplace=True)
-    # new_ds.columns = ['state', 'requests', 'acc_loan']
-    # new_ds['perc_acc_loan'] = new_ds.acc_loan / new_ds.requests
-    # new_ds.to_csv(DATA + 'perc_acc_loan_per_state.csv', index=False)
+    # print new_ds
+    # new_ds.columns = ['state', 'tot1', 'acc_loan', 'tot2', 'sum_dti', 'tot3', 'sum_amnt']
+    # new_ds['perc_acc_loan'] = new_ds.acc_loan / new_ds.tot1
+    # new_ds['mean_dti'] = new_ds.sum_dti / new_ds.tot2
+    # new_ds['mean_amnt'] = new_ds.sum_amnt / new_ds.tot3
+    # new_ds[['state', 'perc_acc_loan', 'mean_dti', 'mean_amnt']].to_csv(DATA_LOCAL + 'perc_acc_loan_per_state.csv', index=False)
 
 
 
@@ -171,6 +174,8 @@ def templateUsMapPercAcceptedLoan():
     rate = [new_ds.perc_acc_loan[code] * 100 for code in states]
     name = [states[code]["name"] + '-' + code for code in states]
     urls = ['http://theloan-app.herokuapp.com/info_' + str(code) for code in states]
+    mean_amnt = [new_ds.mean_amnt[code] for code in states]
+    mean_dti = [new_ds.mean_dti[code] for code in states]
 
     cm = LinearColorMapper(palette=['#deebf7', '#c6dbef', '#9ecae1', '#6baed6', '#4292c6', '#2171b5', '#084594'],
                            low=round(min(rate), 2),
@@ -182,7 +187,9 @@ def templateUsMapPercAcceptedLoan():
         y=state_ys,
         name=name,
         rate=rate,
-        urls=urls
+        urls=urls,
+        mean_amnt=mean_amnt,
+        mean_dti=mean_dti
     ))
 
     TOOLS = "pan,wheel_zoom,reset,hover,save,tap"
@@ -212,14 +219,16 @@ def templateUsMapPercAcceptedLoan():
     hover.point_policy = "follow_mouse"
     hover.tooltips = [
         ("State", "@name"),
-        ("Loan Accepance Rate", "@rate%")
+        ("Loan Accepance Rate", "@rate{1.11}%"),
+        ("Mean Requested Amount", "@mean_amnt{1.11}"),
+        ("Mean Debt To Income Ratio", "@mean_dti{1.11}%")
     ]
 
     taptool = p.select(type=TapTool)
     taptool.callback = OpenURL(url='@urls')
 
     # show(p)
-    # grap component
+
     script, div = components(p)
 
     return script, div
@@ -236,7 +245,12 @@ def templateRateCorrelation(state):
     rate = dati['rate']/100
 
     source = ColumnDataSource(
-        data={'x': amnt, 'y': rate, 'Amount Requested': amnt, 'Annual Income': income, 'Debt To Income Ratio': dti}
+        data={'x': amnt,
+              'y': rate,
+              'Amount Requested': amnt,
+              'Annual Income': income,
+              'Debt To Income Ratio': dti,
+              'Rate_per_100': rate*100}
     )
 
     codex = """
@@ -254,7 +268,8 @@ def templateRateCorrelation(state):
 
     callbackx = CustomJS(args=dict(source=source), code=codex)
 
-    plot = Figure(title=None, height=400, width=600)
+    TOOLS = "pan,wheel_zoom,reset,hover,save"
+    plot = Figure(title=None, height=400, width=600, tools=TOOLS)
 
     # Make a line and connect to data source
     plot.circle(x="x", y="y", line_color="#2ca02c", line_width=6, line_alpha=0.6, source=source)
@@ -264,10 +279,22 @@ def templateRateCorrelation(state):
     xaxis_select = Select(title="Label X axis:", value="Amount",
                           options=DEFAULT_X, callback=callbackx)
 
+    hover = plot.select_one(HoverTool)
+    hover.point_policy = "follow_mouse"
+    hover.tooltips = [
+        ("Rate", "@Rate_per_100{1.11}%"),
+        ("Amount Requested", "@{Amount Requested}{1.11}"),
+        ("Annual Income", "@{Annual Income}{1.11}"),
+        ("Debt To Income Ratio", "@{Debt To Income Ratio}{1.11}%")
+    ]
+
+
     # Layout widgets next to the plot
     controls = VBox(xaxis_select)
 
     layout = HBox(controls, plot, width=800)
+
+    # show(layout)
 
     script_corr, div_corr = components(layout)
 

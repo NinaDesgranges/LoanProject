@@ -27,8 +27,10 @@ from settings import DATA
 
 # da.countRateOverTime()
 
-da.templateAcceptedLoanPerRegion()
+# da.templateAcceptedLoanPerRegion()
 
 # da.test()
 
-# da.templateRateCorrelation('CA')
+da.templateRateCorrelation('CA')
+
+# da.templateUsMapPercAcceptedLoan()
