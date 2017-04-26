@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ 	 <title>Welcome</title>
+ 	 <meta charset="utf-8">
+  	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+ 	 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+ 	 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	{{ js_resources|indent(4)|safe }}
+    {{ css_resources|indent(4)|safe }}
+    {{ plot_script|indent(4)|safe }}
+
+
+</head>
+
+<style>
+	.jumbotron{
+	background-color: #00CC66;
+	color: #ffffff
+	}
+
+	.container-fluid{
+	padding: 40px 50px;
+	}
+
+
+</style>
+<<body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="60">>
+	<div class="jumbotron text-center">
+		<h1>My <strong>Loan</strong> App</h1>
+		<p>Find out more about loans</p>
+	</div>
+</body>
+
+<style>
+	.bg-grey{
+	background-color: #b2ff7f;
+
+</style>
+<style>
+	.logo{
+	font-size: 200px;
+	color: #00CC66
+	}
+	@media screen and (max-width: 768px){
+	.col-sm-4 {
+	text-align: center;
+	margin: 25px 0;
+	}}
+</style>
+
+
+
+<div id="theproject" class="container-fluid" >
+	<div class="row">
+		<div class="col-sm-8">
+			<h2> About My Project h2 </h2>
+
+			<h4> About My Project h4 </h4>
+
+			<p> About My Project p </p>
+
+			<form action="/index" method="get">
+    			<button class="btn btn-default btn-lg" name="map">The Button</button>
+			</form>
+
+		</div>
+		<div  class="col-sm-4">
+
+			<img class="logo" src="static/logo.png" alt="Logo">
+		</div>
+	</div>
+</div>
+
+<div id="data" class="container-fluid bg-grey">
+	<div class="row">
+		<div class="col-sm-4">
+			<span class="glyphicon glyphicon-signal logo"></span>
+		</div>
+		<div class="col-sm-8">
+			<h2>Our Values</h2>
+
+  			<h4><strong>MISSION:</strong> Our mission lorem ipsum..</h4>
+
+  			<p><strong>VISION:</strong> Our vision Lorem ipsum..
+
+		</div>
+	</div>
+
+
+</div>
+<div id="model" class="container-fluid">
+	<h2> My plot </h2>
+	{{ plot_div| safe}}
+</div>
+
+
+
+
+<div id="contact" class="container-fluid bg-grey">
+  <h2 class="text-center">CONTACT</h2>
+  <div class="row">
+    <div class="col-sm-5">
+      <p>Contact me if you have some feedbacks!</p>
+		<p><span class="glyphicon glyphicon-user"></span> Nina Desgranges</p>
+        <p><span class="glyphicon glyphicon-map-marker"></span> Via Kock, 1/4, Milan, IT</p>
+        <p><span class="glyphicon glyphicon-phone"></span> +39 3460378806</p>
+        <p><span class="glyphicon glyphicon-envelope"></span> n.desgranges@reply.it</p>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+<style>
+	.navbar {
+    margin-bottom: 0;
+    background-color: #00CC66;
+    z-index: 9999;
+    border: 0;
+    font-size: 12px !important;
+    line-height: 1.42857143 !important;
+    letter-spacing: 4px;
+    border-radius: 0;
+}
+
+.navbar li a, .navbar .navbar-brand {
+    color: #fff !important;
+}
+
+.navbar-nav li a:hover, .navbar-nav li.active a {
+    color: #00CC66 !important;
+    background-color: #fff !important;
+}
+
+.navbar-default .navbar-toggle {
+    border-color: transparent;
+    color: #fff !important;
+}
+</style>
+
+<nav class="navbar navbar-default navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#"><img class="logo" src="static/logo.png" alt="Logo" height="30" width="84"></a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#theproject">THE PROJECT</a></li>
+        <li><a href="#data">DATA</a></li>
+        <li><a href="#model">MODEL</a></li>
+        <li><a href="#contact">CONTACT</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+</html>

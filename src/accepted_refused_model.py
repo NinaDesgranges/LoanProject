@@ -23,7 +23,9 @@ class dataTransform(base.BaseEstimator, base.TransformerMixin):
 
     def fit(self, X):
         self.applyTransformation.fit(X[self.columns].to_dict(orient='records'))
+        print X[self.columns].to_dict(orient='records')
         self.feature_names = self.applyTransformation.get_feature_names()
+        print self.feature_names
         return self
 
     def transform(self, X):
@@ -303,4 +305,26 @@ def outputGridSearchLogisticRegression(path=DATA_LOCAL + 'accepted_refused_ds.cs
     # pr.plot_roc(tpr=tpr,
     #             fpr=fpr,
     #             thresholds=threshold)
+
+
+def test(path=DATA_LOCAL + "accepted_refused_ds.csv"):
+
+    print 'Open data'
+    data = pd.read_csv(path, header=0)
+    data['month'] = [c[0:3] for c in data.date]
+    print data.columns.values
+
+    print 'Data transformation'
+    feat = dataTransform(columns=['month', 'emp_len', 'state'],
+                         applyTransformation=DictVectorizer(sparse=False),
+                         columnsAppend=['amnt', 'dti', 'loan'])
+
+    print 'Fit the data transformation'
+
+    data_transformed = feat.fit_transform(data)
+
+    # data_transformed.to_csv(DATA + 'accepted_refused_ds_small_trans.csv', index=False)
+
+    return data_transformed
+
 

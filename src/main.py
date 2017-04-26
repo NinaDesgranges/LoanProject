@@ -31,6 +31,8 @@ from settings import DATA
 
 # da.test()
 
-da.templateRateCorrelation('CA')
+# da.templateRateCorrelation('CA')
 
 # da.templateUsMapPercAcceptedLoan()
+
+acc_ref_model.test()

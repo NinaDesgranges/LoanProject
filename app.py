@@ -36,7 +36,51 @@ app.vars = {}
 
 @app.route('/')
 def main():
-    return redirect('/index')
+    return redirect('/welcome')
+
+
+@app.route('/welcome', methods=['GET', 'POST'])
+def welcome():
+
+    if request.method == 'GET':
+
+        js_resources = INLINE.render_js()
+        css_resources = INLINE.render_css()
+
+        script, div = da.templateUsMapPercAcceptedLoan()
+
+        return render_template(
+            'welcome.html',
+            js_resources=js_resources,
+            css_resources=css_resources,
+            plot_script=script,
+            plot_div=div
+        )
+
+    else:
+
+        # grab the static resources
+        js_resources = INLINE.render_js()
+        css_resources = INLINE.render_css()
+
+        if 'map' in request.data:
+
+            js_resources = INLINE.render_js()
+            css_resources = INLINE.render_css()
+
+            script, div = da.templateUsMapPercAcceptedLoan()
+
+
+
+            return render_template(
+                'index.html',
+                plot_script=script,
+                plot_div=div,
+                js_resources=js_resources,
+                css_resources=css_resources,
+                # ticker_type=selected_ticker
+            )
+        # return encode_utf8(html)
 
 
 
