@@ -16,6 +16,9 @@ from pprint import pprint
 from bokeh.models import ColumnDataSource, HoverTool
 from bokeh.plotting import Figure
 from bokeh.io import show
+from sklearn import svm
+
+
 class dataTransform(base.BaseEstimator, base.TransformerMixin):
     def __init__(self, columns, applyTransformation, columnsAppend):
         self.columns = columns
@@ -208,7 +211,7 @@ def gridSearchLogisticRegression(data):
 
 def outputGridSearchLogisticRegression(path=DATA_LOCAL + 'accepted_refused_ds.csv'):
 
-    data_file = open(DATA_LOCAL + 'dict_recall.json', 'r')
+    data_file = open(DATA_LOCAL + 'dict_f1.json', 'r')
     # print data_file.read()
     data = json.load(data_file)
     # pprint(data)
@@ -229,7 +232,9 @@ def outputGridSearchLogisticRegression(path=DATA_LOCAL + 'accepted_refused_ds.cs
     my_data = pd.read_csv(DATA_LOCAL + 'accepted_refused_ds_trans.csv', header=0)
     print my_data.head()
     y = my_data['loan']
-    y = y.map(lambda x: str(x).replace('1', 'acc').replace('0', 'ref'))
+    str_a = 'acc'
+    str_r = 'ref'
+    y = y.map(lambda x: str(x).replace('1', str_a).replace('0', str_r))
     X = my_data.drop('loan', axis=1)
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=101)
 #    #print sum(y_test)
@@ -250,43 +255,43 @@ def outputGridSearchLogisticRegression(path=DATA_LOCAL + 'accepted_refused_ds.cs
     #                     = 1 per REFUSED
     # cos' nella matroce di cinfusione ho TP FN
     #                                     FP TN
-    y_acc = [p[1] for p in y_pred]
-    y_test = y_test.map(lambda x: int(x.replace('acc', '0').replace('ref', '1')))
+    y_acc = [p[0] for p in y_pred]
+    y_test = y_test.map(lambda x: int(x.replace(str_a, '1').replace(str_r, '0')))
     fpr, tpr, threshold = roc_curve(y_true=y_test, y_score=y_acc)
-    # l = np.arange(len(tpr))
-    # roc = pd.DataFrame(
-    #     {'fpr': pd.Series(fpr, index=l),
-    #      'tpr': pd.Series(tpr, index=l),
-    #      '1-fpr': pd.Series(1 - fpr, index=l),
-    #      'tf': pd.Series(tpr - (1 - fpr), index=l),
-    #      'thresholds': pd.Series(threshold, index=l)}
-    # )
-    # print roc.ix[(roc.tf - 0.0).abs().argsort()[:1]]
-    # # Plot tpr vs 1-fpr
-    # fig, ax = plt.subplots()
-    # plt.plot(roc['tpr'])
-    # plt.plot(roc['1-fpr'], color='red')
-    # plt.xlabel('1-False Positive Rate')
-    # plt.ylabel('True Positive Rate')
-    # plt.title('Receiver operating characteristic')
-    # ax.set_xticklabels([])
+    l = np.arange(len(tpr))
+    roc = pd.DataFrame(
+        {'fpr': pd.Series(fpr, index=l),
+         'tpr': pd.Series(tpr, index=l),
+         '1-fpr': pd.Series(1 - fpr, index=l),
+         'tf': pd.Series(tpr - (1 - fpr), index=l),
+         'thresholds': pd.Series(threshold, index=l)}
+    )
+    print roc.ix[(roc.tf - 0.0).abs().argsort()[:1]]
+    # Plot tpr vs 1-fpr
+    fig, ax = plt.subplots()
+    plt.plot(roc['tpr'])
+    plt.plot(roc['1-fpr'], color='red')
+    plt.xlabel('1-False Positive Rate')
+    plt.ylabel('True Positive Rate')
+    plt.title('Receiver operating characteristic')
+    ax.set_xticklabels([])
     # plt.show()
     roc_auc = auc(fpr, tpr)
-    # plt.figure()
-    # lw = 2
-    # plt.plot(fpr, tpr, color='darkorange',
-    #          lw=lw, label='ROC curve (area = %0.8f)' % roc_auc)
-    # plt.plot([0, 1], [0, 1], color='navy', lw=lw, linestyle='--')
-    # plt.xlim([0.0, 1.0])
-    # plt.ylim([0.0, 1.05])
-    # plt.xlabel('False Positive Rate')
-    # plt.ylabel('True Positive Rate')
-    # plt.title('Receiver operating characteristic')
-    # plt.legend(loc="lower right")
+    plt.figure()
+    lw = 2
+    plt.plot(fpr, tpr, color='darkorange',
+             lw=lw, label='ROC curve (area = %0.8f)' % roc_auc)
+    plt.plot([0, 1], [0, 1], color='navy', lw=lw, linestyle='--')
+    plt.xlim([0.0, 1.0])
+    plt.ylim([0.0, 1.05])
+    plt.xlabel('False Positive Rate')
+    plt.ylabel('True Positive Rate')
+    plt.title('Receiver operating characteristic')
+    plt.legend(loc="lower right")
     # plt.show()
 
     # thre = float(roc.ix[(roc.tf - 0.0).abs().argsort()[:1]]['thresholds'])
-    thre = 0.4
+    thre = 0.40
 
     source = ColumnDataSource(data=dict(tpr=tpr,
                                         fpr=fpr,
@@ -309,8 +314,9 @@ def outputGridSearchLogisticRegression(path=DATA_LOCAL + 'accepted_refused_ds.cs
 
     show(p)
 
-    y_pred_05 = [1 if a > 0.5 else 0 for a in y_acc]
-    y_pred_thre = [1 if a > thre else 0 for a in y_acc]
+    y_pred_05 = [str_a if a > 0.5 else str_r for a in y_acc]
+    y_pred_thre = [str_a if a > thre else str_r for a in y_acc]
+    y_test = y_test.map(lambda x: str(x).replace('1', str_a).replace('0', str_r))
 
     print 'Confusion matrix threshold = ' + str(thre)
     print confusion_matrix(y_true=y_test, y_pred=y_pred_thre)
@@ -318,6 +324,9 @@ def outputGridSearchLogisticRegression(path=DATA_LOCAL + 'accepted_refused_ds.cs
     print 'Confusion matrix threshold = 0.5'
     print confusion_matrix(y_true=y_test, y_pred=y_pred_05)
 
+    y_pred_05 = [1 if a > 0.5 else 0 for a in y_acc]
+    y_pred_thre = [1 if a > thre else 0 for a in y_acc]
+    y_test = y_test.map(lambda x: int(x.replace(str_a, '1').replace(str_r, '0')))
 
     print 'Score f1 (thres = ' + str(thre) + ') = ' + str(f1_score(y_true=y_test, y_pred=y_pred_thre))
 
@@ -363,5 +372,31 @@ def test(path=DATA_LOCAL + "accepted_refused_ds.csv"):
     # data_transformed.to_csv(DATA + 'accepted_refused_ds_small_trans.csv', index=False)
 
     return data_transformed
+
+
+
+def SVMUnbalancedClass(path=DATA_LOCAL + 'accepted_refused_ds.csv'):
+
+    my_data = pd.read_csv(DATA_LOCAL + 'accepted_refused_ds_trans.csv', header=0)
+    print my_data.head()
+    y = my_data['loan']
+    str_a = 'acc'
+    str_r = 'ref'
+    y = y.map(lambda x: str(x).replace('1', str_a).replace('0', str_r))
+    X = my_data.drop('loan', axis=1)
+
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=101)
+
+    clf = svm.OneClassSVM(nu=0.1, kernel="rbf")
+    clf.fit(X_train)
+
+    y_pred_test = clf.predict(X_test)
+
+    print y_pred_test
+    print y_test
+
+    float(sum(y_pred_test == -1)) / len(y_pred_test)
+
+
 
 

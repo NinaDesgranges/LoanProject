@@ -35,4 +35,4 @@ from settings import DATA
 
 # da.templateUsMapPercAcceptedLoan()
 
-acc_ref_model.outputGridSearchLogisticRegression()
+acc_ref_model.SVMUnbalancedClass()

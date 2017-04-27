@@ -49,12 +49,16 @@ def welcome():
 
         script, div = da.templateUsMapPercAcceptedLoan()
 
+        script_time, div_time = da.templateAcceptedLoanPerRegion()
+
         return render_template(
             'welcome.html',
             js_resources=js_resources,
             css_resources=css_resources,
             plot_script=script,
-            plot_div=div
+            plot_div=div,
+            plot_script_time=script_time,
+            plot_div_time=div_time
         )
 
     else:

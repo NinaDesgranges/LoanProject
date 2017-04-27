@@ -201,6 +201,8 @@ def templateUsMapPercAcceptedLoan():
                tools=TOOLS)
     p.yaxis.axis_label = 'Latitude'
     p.xaxis.axis_label = 'Longitude'
+    p.background_fill_color = "#b2ff7f"
+    p.border_fill_color = "#b2ff7f"
 
     p.patches('x', 'y', source=source,
               fill_color={'field': 'rate', 'transform': cm},
@@ -212,7 +214,7 @@ def templateUsMapPercAcceptedLoan():
                          # ticker=ticker,
                          # formatter=formatter
                          )
-
+    color_bar.background_fill_color = "#b2ff7f"
     p.add_layout(color_bar, 'right')
 
     hover = p.select_one(HoverTool)
@@ -337,6 +339,10 @@ def templateAcceptedLoanPerRegion():
 
     p.yaxis.axis_label = 'Percentage of accepted loans'
     p.yaxis[0].formatter = NumeralTickFormatter(format="0.0%")
+    p.border_fill_color = "#b2ff7f"
+    p.background_fill_color = "#b2ff7f"
+    p.legend.background_fill_color = "#b2ff7f"
+    p.legend.background_fill_alpha = 0.5
 
     checkbox = CheckboxGroup(
         labels=LABELS,
@@ -426,6 +432,8 @@ def templateAcceptedLoanPerRegion():
     q.min_border_right = False
     q.min_border_top = False
     q.min_border_bottom = False
+    q.border_fill_color = "#b2ff7f"
+    q.background_fill_color = "#b2ff7f"
 
     q.patches('x', 'y', source=source,
               fill_color='colors',
