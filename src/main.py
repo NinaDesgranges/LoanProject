@@ -35,4 +35,4 @@ from settings import DATA
 
 # da.templateUsMapPercAcceptedLoan()
 
-acc_ref_model.test()
+acc_ref_model.outputGridSearchLogisticRegression()
