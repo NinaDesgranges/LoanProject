@@ -211,7 +211,7 @@ def gridSearchLogisticRegression(data):
 
 def outputGridSearchLogisticRegression(path=DATA_LOCAL + 'accepted_refused_ds.csv'):
 
-    data_file = open(DATA_LOCAL + 'dict_f1.json', 'r')
+    data_file = open(DATA_LOCAL + 'dict_recall.json', 'r')
     # print data_file.read()
     data = json.load(data_file)
     # pprint(data)
@@ -241,13 +241,13 @@ def outputGridSearchLogisticRegression(path=DATA_LOCAL + 'accepted_refused_ds.cs
     #print len(y_test) - sum(y_test)
     print 'Built and fit the model'
     lr = LogisticRegression(class_weight='balanced', random_state=101, C=best_param)
-    lr.fit(X=X_train, y=y_train)
+    lr.fit(X=X_train, y=y_train.map(lambda x: int(x.replace(str_a, '1').replace(str_r, '0'))))
     y_pred = lr.predict_proba(X=X_test)
     coef = lr.coef_
     print lr.get_params()
     name_coef = my_data.columns.values[:-1]
     coef_val = pd.DataFrame(data={'coef': name_coef, 'val': coef[0]})
-    coef_val.to_csv(DATA + 'LogisticRegressionCoef_c' + str(best_param) + '.csv', index=False)
+    coef_val.to_csv(DATA_LOCAL + 'LogisticRegressionCoef_c' + str(best_param) + '.csv', index=False)
 
 
     print 'Built ROC curve'
@@ -255,9 +255,13 @@ def outputGridSearchLogisticRegression(path=DATA_LOCAL + 'accepted_refused_ds.cs
     #                     = 1 per REFUSED
     # cos' nella matroce di cinfusione ho TP FN
     #                                     FP TN
-    y_acc = [p[0] for p in y_pred]
+    y_acc = [p[1] for p in y_pred]
     y_test = y_test.map(lambda x: int(x.replace(str_a, '1').replace(str_r, '0')))
     fpr, tpr, threshold = roc_curve(y_true=y_test, y_score=y_acc)
+
+    # data_roc = pd.DataFrame({'tpr': tpr, 'fpt': fpr, 'threshold': threshold})
+    # data_roc.to_csv(DATA_LOCAL#  + 'roc_curve_c00001.csv', index=False)
+
     l = np.arange(len(tpr))
     roc = pd.DataFrame(
         {'fpr': pd.Series(fpr, index=l),
@@ -374,28 +378,6 @@ def test(path=DATA_LOCAL + "accepted_refused_ds.csv"):
     return data_transformed
 
 
-
-def SVMUnbalancedClass(path=DATA_LOCAL + 'accepted_refused_ds.csv'):
-
-    my_data = pd.read_csv(DATA_LOCAL + 'accepted_refused_ds_trans.csv', header=0)
-    print my_data.head()
-    y = my_data['loan']
-    str_a = 'acc'
-    str_r = 'ref'
-    y = y.map(lambda x: str(x).replace('1', str_a).replace('0', str_r))
-    X = my_data.drop('loan', axis=1)
-
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=101)
-
-    clf = svm.OneClassSVM(nu=0.1, kernel="rbf")
-    clf.fit(X_train)
-
-    y_pred_test = clf.predict(X_test)
-
-    print y_pred_test
-    print y_test
-
-    float(sum(y_pred_test == -1)) / len(y_pred_test)
 
 
 

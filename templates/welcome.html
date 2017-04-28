@@ -11,6 +11,8 @@
     {{ css_resources|indent(4)|safe }}
     {{ plot_script|indent(4)|safe }}
     {{ plot_script_time|indent(4)|safe }}
+	{{ plot_script_roc_1 | indent(4) | safe}}
+	{{ plot_script_roc_2 | indent(4) | safe}}
 
 
 </head>
@@ -35,12 +37,10 @@
 </body>
 
 <style>
-	.bg-grey{
+.bg-grey{
 	background-color: #b2ff7f;
 
-</style>
-<style>
-	.logo{
+.logo{
 	font-size: 200px;
 	color: #00CC66
 	}
@@ -49,32 +49,29 @@
 	text-align: center;
 	margin: 25px 0;
 	}}
-</style>
 
+</style>
 
 
 <div id="theproject" class="container-fluid" >
 	<div class="row">
 		<div class="col-sm-8">
 			<h2 class="text-center"> THE PROJECT </h2>
-
 			<p>
 				This project has been developed as an exercise to improve my skills in topics I never had the opportunity to use before. <br>
 				The tool I used are mostly <a href="https://dashboard.heroku.com">Heroku</a> to develop the app and <a href="https://www.python.org/">Python</a> for the analysis.
-
 			</p>
 
 			<form action="/index" method="get">
     			<button class="btn btn-default btn-lg" name="map">The Button</button>
 			</form>
-
 		</div>
 		<div  class="col-sm-4">
-
 			<img class="logo" src="static/logo.png" alt="Logo">
 		</div>
 	</div>
 </div>
+
 
 <div id="data" class="container-fluid bg-grey ">
 	<div class="row">
@@ -88,69 +85,75 @@
 					<li> Infer the rate of the accepted loan. </li>
 				</ul>
 				</b>
-				<br><br>
+				<br>
+				<br>
 				<h4><b>Row data</b></h4> <br>
 				<ul>
-			<li> 2 datasets: accepted and refused loan.</li>
-			<li> Accepted loan dataset made of 887'441 rows x 111 columns. <br> Most important columns: </li>
-			<ul>
-				<li> The total amount requested by the borrower.</li>
-				<li> The self-reported annual income provided by the borrower.</li>
-				<li> The combined self-reported annual income provided by the co-borrowers during registration.</li>
-				<li> Indicates whether the loan is an individual application or a joint application with two co-borrowers. </li>
-				<li> Average current balance of all accounts. </li>
-				<li> Dti: a ratio calculated using the borrower’s total monthly debt payments on the total debt obligations, excluding mortgage and the requested LC loan, divided by the borrower’s self-reported monthly income.</li>
-				<li> A ratio calculated using the co-borrowers' total monthly payments on the total debt obligations, excluding mortgages and the requested LC loan, divided by the co-borrowers' combined self-reported monthly income.</li>
-				<li> Employment length in years. Possible values are between 0 and 10 where 0 means less than one year and 10 means ten or more years.</li>
-				<li> The job title supplied by the Borrower when applying for the loan.</li>
-				<li> Loan description provided by the borrower.</li>
-				<li> The state provided by the borrower in the loan application.</li>
-				<li> The first 3 numbers of the zip code provided by the borrower in the loan application.</li>
-				<li> The month which the loan was funded.</li>
-				<li> ... </li>
-				<li> Interest rate on the loan.</li>
-				<li></li>
-			</ul>
-			<li> Refused loan dataset made of 6'309'512 rows x 9 columns. <br> Columns: </li>
-			<ul>
-				<li> The total amount requested by the borrower.</li>
-				<li> The date which the borrower applied.</li>
-				<li> The loan title provided by the borrower.</li>
-				<li> A ratio calculated using the borrower’s total monthly debt payments on the total debt obligations, excluding mortgage and the requested LC loan, divided by the borrower’s self-reported monthly income.</li>
-				<li> For applications prior to November 5, 2013 the risk score is the borrower's FICO score. For applications after November 5, 2013 the risk score is the borrower's Vantage score.</li>
-				<li> The first 3 numbers of the zip code provided by the borrower in the loan application.</li>
-				<li> The state provided by the borrower in the loan application.</li>
-				<li> Employment length in years. Possible values are between 0 and 10 where 0 means less than one year and 10 means ten or more years.</li>
-			</ul>
-			<li> The available records are from June 2007 to December 2015</li>
-			<li> Total of 1.12GB </li>
-		</ul>
-			<br>
-
-			<h4><b> Data Cleaning</b></h4>
-			<ul>
-				<li> Homogenize same columns in the two datasets (ex: date 12/03/2007 vs date Mar-07 )</li>
-				<li> Filter date to have the same time span.</li>
-				<li> Select valid data. </li>
-			</ul>
-			<br>
-			The following pictures represent the <b>percentage of loan issued per state </b>. Clicking on each State you could see how the loan rate in correlated with some features.
-			<br>
-			{{ plot_div| safe}}
-			<br>
-
-			In this picture we can see how the <b>percentage changed over the years in different regions</b>.
-			<br>
-			{{ plot_div_time| safe}}
-
+					<li> 2 datasets: accepted (12.3%)and refused(81.7%) loan.</li>
+					<li> Accepted loan dataset made of 887'441 rows x 111 columns. (12.3%)<br> Most important columns: </li>
+					<ul>
+						<li> The total amount requested by the borrower.</li>
+						<li> The self-reported annual income provided by the borrower.</li>
+						<li> The combined self-reported annual income provided by the co-borrowers during registration.</li>
+						<li> Indicates whether the loan is an individual application or a joint application with two co-borrowers. </li>
+						<li> Average current balance of all accounts. </li>
+						<li> Dti: a ratio calculated using the borrower’s total monthly debt payments on the total debt obligations, excluding mortgage and the requested LC loan, divided by the borrower’s self-reported monthly income.</li>
+						<li> A ratio calculated using the co-borrowers' total monthly payments on the total debt obligations, excluding mortgages and the requested LC loan, divided by the co-borrowers' combined self-reported monthly income.</li>
+						<li> Employment length in years. Possible values are between 0 and 10 where 0 means less than one year and 10 means ten or more years.</li>
+						<li> The job title supplied by the Borrower when applying for the loan.</li>
+						<li> Loan description provided by the borrower.</li>
+						<li> The state provided by the borrower in the loan application.</li>
+						<li> The first 3 numbers of the zip code provided by the borrower in the loan application.</li>
+						<li> The month which the loan was funded.</li>
+						<li> ... </li>
+						<li> Interest rate on the loan.</li>
+					</ul>
+					<li> Refused loan dataset made of 6'309'512 rows x 9 columns. <br> Columns: </li>
+					<ul>
+						<li> The total amount requested by the borrower.</li>
+						<li> The date which the borrower applied.</li>
+						<li> The loan title provided by the borrower.</li>
+						<li> A ratio calculated using the borrower’s total monthly debt payments on the total debt obligations, excluding mortgage and the requested LC loan, divided by the borrower’s self-reported monthly income.</li>
+						<li> For applications prior to November 5, 2013 the risk score is the borrower's FICO score. For applications after November 5, 2013 the risk score is the borrower's Vantage score.</li>
+						<li> The first 3 numbers of the zip code provided by the borrower in the loan application.</li>
+						<li> The state provided by the borrower in the loan application.</li>
+						<li> Employment length in years. Possible values are between 0 and 10 where 0 means less than one year and 10 means ten or more years.</li>
+					</ul>
+						<li> The available records are from June 2007 to December 2015</li>
+						<li> Total of 1.12GB </li>
+					</ul>
+					<br>
+				<h4><b> Data Cleaning</b></h4>
+				<ul>
+					<li> Homogenize same columns in the two datasets (ex: date 12/03/2007 vs date Mar-07 )</li>
+					<li> Filter date to have the same time span.</li>
+					<li> Select valid data. </li>
+				</ul>
+				<br>
+				The following pictures represent the <b>percentage of loan issued per state </b>. Clicking on each State you could see how the loan rate in correlated with some features.
+				<br>
+				{{ plot_div| safe}}
+				<br>
+				In this picture we can see how the <b>percentage changed over the years in different regions</b>.
+				<br>
+				{{ plot_div_time| safe}}
 			</p>
 	</div>
-
-
 </div>
+
+
 <div id="model" class="container-fluid">
 	<h2 class="text-center"> MODEL </h2>
-	Test the model!!
+	<p>
+		<div class="row">
+			<div class="col-sm-6">
+				<center>{{plot_div_roc_1 | safe}}</center>
+			</div>
+			<div class="col-sm-6">
+				<center>{{plot_div_roc_2 | safe}}</center>
+			</div>
+		</div>
+	</p>
 </div>
 
 
@@ -160,15 +163,16 @@
     <div class="col-sm-5">
       <p>Contact me if you have some feedbacks!</p>
 		<p><span class="glyphicon glyphicon-user"></span> Nina Desgranges</p>
-        <p><span class="glyphicon glyphicon-map-marker"></span> Via Kock, 1/4, Milan, IT</p>
+        <p><span class="glyphicon glyphicon-map-marker"></span> Via Kock, 1/4, Milan, ITALY</p>
         <p><span class="glyphicon glyphicon-phone"></span> +39 3460378806</p>
         <p><span class="glyphicon glyphicon-envelope"></span> n.desgranges@reply.it</p>
     </div>
   </div>
 </div>
 
+
 <style>
-	.navbar {
+.navbar {
     margin-bottom: 0;
     background-color: #00CC66;
     z-index: 9999;
@@ -193,7 +197,6 @@
     color: #fff !important;
 }
 </style>
-
 <nav class="navbar navbar-default navbar-fixed-top">
   <div class="container">
     <div class="navbar-header">

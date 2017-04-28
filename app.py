@@ -41,7 +41,6 @@ def main():
 
 @app.route('/welcome', methods=['GET', 'POST'])
 def welcome():
-
     if request.method == 'GET':
 
         js_resources = INLINE.render_js()
@@ -51,6 +50,9 @@ def welcome():
 
         script_time, div_time = da.templateAcceptedLoanPerRegion()
 
+        script_roc_c002812, div_roc_c002812 = da.templateROC(c='c002812')
+        script_roc_c00001, div_roc_00001 = da.templateROC(c='c00001')
+
         return render_template(
             'welcome.html',
             js_resources=js_resources,
@@ -58,7 +60,11 @@ def welcome():
             plot_script=script,
             plot_div=div,
             plot_script_time=script_time,
-            plot_div_time=div_time
+            plot_div_time=div_time,
+            plot_script_roc_1=script_roc_c00001,
+            plot_div_roc_1=div_roc_00001,
+            plot_script_roc_2=script_roc_c002812,
+            plot_div_roc_2=div_roc_c002812
         )
 
     else:
@@ -68,13 +74,10 @@ def welcome():
         css_resources = INLINE.render_css()
 
         if 'map' in request.data:
-
             js_resources = INLINE.render_js()
             css_resources = INLINE.render_css()
 
             script, div = da.templateUsMapPercAcceptedLoan()
-
-
 
             return render_template(
                 'index.html',
@@ -84,13 +87,11 @@ def welcome():
                 css_resources=css_resources,
                 # ticker_type=selected_ticker
             )
-        # return encode_utf8(html)
-
+            # return encode_utf8(html)
 
 
 @app.route('/index', methods=['GET', 'POST'])
 def index():
-
     if request.method == 'GET':
 
         js_resources = INLINE.render_js()
@@ -128,7 +129,6 @@ def index():
 
 @app.route('/info_<state>/')
 def info_state(state):
-
     js_resources = INLINE.render_js()
     css_resources = INLINE.render_css()
 
@@ -143,9 +143,9 @@ def info_state(state):
         state=state
     )
 
+
 @app.route('/perc_over_time')
 def perc_over_time():
-
     js_resources = INLINE.render_js()
     css_resources = INLINE.render_css()
 

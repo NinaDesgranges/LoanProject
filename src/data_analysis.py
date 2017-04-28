@@ -40,7 +40,7 @@ from bokeh.models.layouts import HBox, VBox
 import bokeh.io
 from bokeh.models import CustomJS
 import os.path
-
+# from sklearn.model_selection import train_test_split
 ACC_REF_HEADER = ['title', 'amnt', 'zip', 'state', 'emp_len', 'dti', 'date', 'loan']
 
 
@@ -244,7 +244,7 @@ def templateRateCorrelation(state):
     amnt = dati['amnt']
     income = dati['income']
     dti = dati['dti']
-    rate = dati['rate']/100
+    rate = dati['rate'] / 100
 
     source = ColumnDataSource(
         data={'x': amnt,
@@ -252,7 +252,7 @@ def templateRateCorrelation(state):
               'Amount Requested': amnt,
               'Annual Income': income,
               'Debt To Income Ratio': dti,
-              'Rate_per_100': rate*100}
+              'Rate_per_100': rate * 100}
     )
 
     codex = """
@@ -290,7 +290,6 @@ def templateRateCorrelation(state):
         ("Debt To Income Ratio", "@{Debt To Income Ratio}{1.11}%")
     ]
 
-
     # Layout widgets next to the plot
     controls = VBox(xaxis_select)
 
@@ -308,13 +307,13 @@ def templateAcceptedLoanPerRegion():
     colors = ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd', '#8c564b', '#17becf']
     data = pd.read_csv(DATA + 'perc_acc_loan_per_region_date_compact.csv')
 
-    central = data['Central']/100
-    midatl = data['Mid-Atlantic']/100
-    northe = data['Northeast']/100
-    northw = data['Northwest']/100
-    south = data['South']/100
-    southe = data['Southeast']/100
-    southw = data['Southwest']/100
+    central = data['Central'] / 100
+    midatl = data['Mid-Atlantic'] / 100
+    northe = data['Northeast'] / 100
+    northw = data['Northwest'] / 100
+    south = data['South'] / 100
+    southe = data['Southeast'] / 100
+    southw = data['Southwest'] / 100
     date = data['date']
 
     source = ColumnDataSource(data=dict(x=[datetime.strptime(d, '%b-%Y') for d in date.values],
@@ -444,6 +443,40 @@ def templateAcceptedLoanPerRegion():
     # show(layout)
 
     script, div = components(layout)
+
+    return script, div
+
+
+def templateROC(c='c002812'):
+    data = pd.read_csv(DATA + 'roc_curve_' + c + '_small.csv')
+
+    # data_train, data_test = train_test_split(data, test_size=1.0/20, random_state=101)
+    # data_test = data_test.sort_values(by=['tpr', 'fpt', 'threshold'])
+    # data_test.to_csv(DATA + 'roc_curve_' + c + '_small.csv', index=False)
+
+    source = ColumnDataSource(data=dict(tpr=data['tpr'],
+                                        fpr=data['fpt'],
+                                        thre=data['threshold']
+                                        ))
+
+    TOOLS = "pan,wheel_zoom,reset,hover,save"
+    p = Figure(tools=TOOLS, height=300, width=300, toolbar_location="above")
+    p.line('fpr', 'tpr', source=source, line_width=5)
+    p.line([0, 1], [0, 1], line_dash='dashed', line_alpha=0.6)
+    p.yaxis.axis_label = 'True Positive Rate'
+    p.xaxis.axis_label = 'False Positive Rate'
+    # p.background_fill_color = "#b2ff7f"
+    # p.border_fill_color = "#b2ff7f"
+
+    hover = p.select_one(HoverTool)
+    hover.point_policy = "follow_mouse"
+    hover.tooltips = [
+        ("FPR", "@fpr{1.11}"),
+        ("TPR", "@tpr{1.11}"),
+        ("THRESHOLD", "@thre{1.11}")
+    ]
+#
+    script, div = components(p)
 
     return script, div
 
