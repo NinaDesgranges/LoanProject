@@ -1,5 +1,6 @@
 import data_analysis as da
 import accepted_refused_model as acc_ref_model
+import rate_model as rm
 from settings import DATA
 # da.createNewDataset()
 
@@ -37,6 +38,16 @@ from settings import DATA
 
 # acc_ref_model.outputGridSearchLogisticRegression()
 
-da.templateROC(c='c002812')
+# da.templateROC(c='c002812')
 
-da.templateROC(c='c00001')
+# da.templateROC(c='c00001')
+
+# rm.data_cleaning()
+
+# rm.featuresReduction()
+
+# rm.modelingSVR()
+
+# rm.modelingRandomForest()
+
+rm.ensambleModel()

@@ -18,15 +18,32 @@
 </head>
 
 <style>
-	.jumbotron{
+.jumbotron{
 	background-color: #00CC66;
 	color: #ffffff
 	}
 
-	.container-fluid{
+.container-fluid{
 	padding: 40px 50px;
 	}
 
+table, th, td {
+    padding: 5px 3px;
+
+}
+
+
+.black-border {
+	border: 1px solid black;
+	padding: 5px 3px;
+}
+
+.column-divisor{
+	color: #00CC66;
+	font-size: 20px;
+	font-weight: bold;
+
+}
 
 </style>
 <<body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="60">>
@@ -49,6 +66,7 @@
 	text-align: center;
 	margin: 25px 0;
 	}}
+
 
 </style>
 
@@ -145,12 +163,224 @@
 <div id="model" class="container-fluid">
 	<h2 class="text-center"> MODEL </h2>
 	<p>
+		<div>
+		My first model is about predicting the acceptance of a loan given the following features: <br>
+		<ul>
+			<li> The requested amount.</li>
+			<li> Debt to income ratio.</li>
+			<li> State. </li>
+			<li> Month of request. </li>
+			<li> Employment length.</li>
+		</ul> <br>
+		I model this problem as a classification model and I will use a <a href="http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html">Logistic Regression </a>: <br>
+		<center>{\displaystyle logit(p)=\beta _{0}+\beta _{1}x_{1}+\beta _{2}x_{2}+\beta _{3}x_{3}+\dots +\beta _{k}x_{k}=X\beta }</center><br>
+		The Logistic Regression outputs the probability of belonging to a class. If the probability is greater or equal
+		than a <i>threshold</i>, the sample will be assigned to class 1 (= Accepted) otherwise to class 0 (=Refused).<br>
+		This a problem with highly unbalances class: in the available data only 12% of the loan have been accepted.
+		<br><br>
+
+		<h4> <b>Grid search to determine the regularization parameter <i>C</i></b> </h4>
+		The <i>C</i> parameter in the Logistic Regression specify the strength of the regularization. Smaller values
+		correspond to stronger regularization. In order to predict the acceptance of a rate I look for C values maximizing
+		both the f1 and the recall score.
+		<ul>
+			<li> <b>F1 score</b>: C = 0.02812</li>
+			<li> <b>Recall score</b>: C = 0.0001</li>
+		</ul>
+		<h4> <b>ROC curve analysis to determine the best <i>threshold</i></b></h4>
+
+
+		</div>
+
+		<div class="row">
+			<div class="col-sm-6">
+				<center> <font class="column-divisor">C = 0.0001</font></center>
+			</div>
+			<div class="col-sm-6">
+				<center> <font class="column-divisor"> C = 0.02812</font></center>
+			</div>
+		</div>
 		<div class="row">
 			<div class="col-sm-6">
 				<center>{{plot_div_roc_1 | safe}}</center>
 			</div>
 			<div class="col-sm-6">
 				<center>{{plot_div_roc_2 | safe}}</center>
+			</div>
+		</div>
+	<br>
+	<br>
+		<div class="row">
+			<div class="col-sm-6">
+				<div class="col-sm-6">
+					<font class="column-divisor"> Threshold = 0.15 </font>
+						<table>
+							<tr>
+      							<th colspan="4">
+								<center>Predicted</center>
+								</th>
+							</tr>
+							<tr>
+								<td rowspan="3"> <b>Real</b> </td>
+								<td class="black-border">  </td>
+								<th class="black-border"> Accepted </th>
+								<th class="black-border"> Refused </th>
+							</tr>
+							<tr >
+								<th class="black-border"> Accepted </th>
+								<td class="black-border"> 246.093 </td>
+								<td class="black-border"> 20.361</td>
+							</tr>
+							<tr >
+								<th class="black-border"> Refused </th>
+								<td class="black-border"> 316.063</td>
+								<td class="black-border"> 1.422.097</td>
+							</tr>
+						</table>
+						<br>
+						<table>
+							<tr>
+								<td>Recall</td><td>0.924</td>
+							</tr>
+							<tr>
+								<td>F1</td><td>0.595</td>
+							</tr>
+							<tr>
+								<td>Precision</td><td>0.438</td>
+							</tr>
+							<tr>
+								<td>AUC</td><td>0.921</td>
+							</tr>
+						</table>
+
+
+				</div>
+				<div class="col-sm-6">
+					<font class="column-divisor">Threshold = 0.4</font>
+						<table>
+							<tr>
+      							<th colspan="4">
+								<center>Predicted</center>
+								</th>
+							</tr>
+							<tr>
+								<td rowspan="3"> <b>Real</b> </td>
+								<td class="black-border">  </td>
+								<th class="black-border"> Accepted </th>
+								<th class="black-border"> Refused </th>
+							</tr>
+							<tr >
+								<th class="black-border"> Accepted </th>
+								<td class="black-border"> 245.347 </td>
+								<td class="black-border"> 21.107</td>
+							</tr>
+							<tr >
+								<th class="black-border"> Refused </th>
+								<td class="black-border"> 266.028</td>
+								<td class="black-border"> 1.472.132</td>
+							</tr>
+						</table>
+						<br>
+						<table>
+							<tr>
+								<td>Recall</td><td>0.921</td>
+							</tr>
+							<tr>
+								<td>F1</td><td>0.631</td>
+							</tr>
+							<tr>
+								<td>Precision</td><td>0.480</td>
+							</tr>
+							<tr>
+								<td>AUC</td><td>0.921</td>
+							</tr>
+						</table>
+				</div>
+			</div>
+			<div class="col-sm-6">
+				<div class="col-sm-6">
+					<font class="column-divisor">Threshold = 0.15</font>
+						<table>
+							<tr>
+      							<th colspan="4">
+								<center>Predicted</center>
+								</th>
+							</tr>
+							<tr>
+								<td rowspan="3"> <b>Real</b> </td>
+								<td class="black-border">  </td>
+								<th class="black-border"> Accepted </th>
+								<th class="black-border"> Refused </th>
+							</tr>
+							<tr >
+								<th class="black-border"> Accepted </th>
+								<td class="black-border"> 245.463 </td>
+								<td class="black-border"> 20.991 </td>
+							</tr>
+							<tr >
+								<th class="black-border"> Refused </th>
+								<td class="black-border"> 281.398 </td>
+								<td class="black-border"> 1.456.762 </td>
+							</tr>
+						</table>
+						<br>
+						<table>
+							<tr>
+								<td>Recall</td><td>0.921</td>
+							</tr>
+							<tr>
+								<td>F1</td><td>0.619</td>
+							</tr>
+							<tr>
+								<td>Precision</td><td>0.466</td>
+							</tr>
+							<tr>
+								<td>AUC</td><td>0.920</td>
+							</tr>
+						</table>
+				</div>
+				<div class="col-sm-6">
+					<font class="column-divisor">Threshold = 0.4</font>
+						<table>
+							<tr>
+      							<th colspan="4">
+								<center>Predicted</center>
+								</th>
+							</tr>
+							<tr>
+								<td rowspan="3"> <b>Real</b> </td>
+								<td class="black-border">  </td>
+								<th class="black-border"> Accepted </th>
+								<th class="black-border"> Refused </th>
+							</tr>
+							<tr >
+								<th class="black-border"> Accepted </th>
+								<td class="black-border"> 245.103 </td>
+								<td class="black-border"> 21.351 </td>
+							</tr>
+							<tr >
+								<th class="black-border"> Refused </th>
+								<td class="black-border"> 258.999 </td>
+								<td class="black-border"> 1.479.161 </td>
+							</tr>
+						</table>
+						<br>
+						<table>
+							<tr>
+								<td>Recall</td><td> 0.920 </td>
+							</tr>
+							<tr>
+								<td>F1</td><td> 0.636 </td>
+							</tr>
+							<tr>
+								<td>Precision</td><td> 0.486 </td>
+							</tr>
+							<tr>
+								<td>AUC</td><td> 0.920 </td>
+							</tr>
+						</table>
+				</div>
+
 			</div>
 		</div>
 	</p>
