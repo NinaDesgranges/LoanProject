@@ -32,14 +32,16 @@ from bokeh.models import (
 )
 from bokeh.palettes import Viridis6 as palette
 from bokeh.plotting import figure
-from bokeh.models import ColumnDataSource
+from bokeh.models import ColumnDataSource, FactorRange
 from bokeh.plotting import Figure
 
 from bokeh.models.widgets import Select, CheckboxGroup
 from bokeh.models.layouts import HBox, VBox
 import bokeh.io
 from bokeh.models import CustomJS
+from bokeh.charts import Bar
 import os.path
+
 # from sklearn.model_selection import train_test_split
 ACC_REF_HEADER = ['title', 'amnt', 'zip', 'state', 'emp_len', 'dti', 'date', 'loan']
 
@@ -475,7 +477,7 @@ def templateROC(c='c002812'):
         ("TPR", "@tpr{1.11}"),
         ("THRESHOLD", "@thre{1.11}")
     ]
-#
+    #
     script, div = components(p)
 
     return script, div
@@ -545,6 +547,91 @@ def countRateOverTime():
     # my_ds.to_csv(DATA_LOCAL + 'perc_acc_loan_per_region_date_compact.csv', index=False)
 
     pass
+
+
+def templateCoefRegression(c='c00001'):
+    data = pd.read_csv(DATA + 'LogisticRegressionCoef_' + c + '_true.csv', header=0)
+
+    data_month = data.ix[12:23, ]
+    data_month = data_month.reindex([16, 15, 19, 12, 20, 18, 17, 13, 23, 22, 21, 14])
+
+    data_empl = data.ix[0:11, ]
+    data_empl = data_empl.reindex([10, 0, 2, 3, 4, 5, 6, 7, 8, 9, 1, 11])
+
+    data_state = data.ix[24:74, ]
+    data_other = data.ix[75:76, ]
+
+    pMonth = Bar(data_month, 'coef', values='val', legend=False, tools='hover')
+    pMonth.x_range = FactorRange(factors=data_month['coef'].tolist())
+    pMonth.xaxis.axis_label = 'Coefficients'
+    pMonth.yaxis.axis_label = 'Value'
+    hover = pMonth.select_one(HoverTool)
+    hover.point_policy = "follow_mouse"
+    hover.tooltips = [
+        ("Coef: ", "@coef"),
+        ("Value: ", "@y")
+    ]
+    # show(pMonth)
+
+    pEmpl = Bar(data_empl, 'coef', values='val', legend=False, tools='hover')
+    pEmpl.x_range = FactorRange(factors=data_empl['coef'].tolist())
+    pEmpl.xaxis.axis_label = 'Coefficients'
+    pEmpl.yaxis.axis_label = 'Value'
+    hover = pEmpl.select_one(HoverTool)
+    hover.point_policy = "follow_mouse"
+    hover.tooltips = [
+        ("Coef: ", "@coef"),
+        ("Value: ", "@y")
+
+    ]
+    # show(pEmpl)
+
+    pState = Bar(data_state, 'coef', values='val', legend=False, tools='hover', width=1200)
+    # # pState.x_range = FactorRange(factors=dm['coef'].tolist())
+    pState.xaxis.axis_label = 'Coefficients'
+    pState.yaxis.axis_label = 'Value'
+    hover = pState.select_one(HoverTool)
+    hover.point_policy = "follow_mouse"
+    hover.tooltips = [
+        ("Coef: ", "@coef"),
+        ("Value: ", "@y")
+
+    ]
+
+    # show(pState)
+
+    pOther = Bar(data_other, 'coef', values='val', legend=False, tools='hover')
+    pOther.xaxis.axis_label = 'Coefficients'
+    pOther.yaxis.axis_label = 'Value'
+    # pOther.x_range = FactorRange(factors=data_other['coef'].tolist())
+    hover = pOther.select_one(HoverTool)
+    hover.point_policy = "follow_mouse"
+    hover.tooltips = [
+        ("Coef: ", "@coef"),
+        ("Value: ", "@y")
+
+    ]
+
+    # show(pOther)
+
+    scriptM, divM = components(pMonth)
+    scriptE, divE = components(pEmpl)
+    scriptS, divS = components(pState)
+    scriptO, divO = components(pOther)
+
+    dic_r = {'month': [scriptM, divM], 'empl': [scriptE, divE], 'state': [scriptS, divS], 'other': [scriptO, divO]}
+
+    return dic_r
+
+
+def templateMSEComparison():
+
+    algorithm = ['Mean Value', 'KNN', 'SVR', 'Random Forest', 'Ensamble Model']
+    # best svr: 13,0.005,laplacian
+    # best KNN: 250
+    # best Rand Forest: auto - 80  - 150
+
+    MSE = [19.2108, 15.6561, 14.7079,  14.2407, 0.0]
 
 
 # def createSmallDataset():

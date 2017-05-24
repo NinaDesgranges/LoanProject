@@ -13,6 +13,10 @@
     {{ plot_script_time|indent(4)|safe }}
 	{{ plot_script_roc_1 | indent(4) | safe}}
 	{{ plot_script_roc_2 | indent(4) | safe}}
+	{{ plot_script_m | indent(4) | safe}}
+	{{ plot_script_e | indent(4) | safe}}
+	{{ plot_script_s | indent(4) | safe}}
+	{{ plot_script_o | indent(4) | safe}}
 
 
 </head>
@@ -40,7 +44,7 @@ table, th, td {
 
 .column-divisor{
 	color: #00CC66;
-	font-size: 20px;
+	font-size: 17px;
 	font-weight: bold;
 
 }
@@ -105,9 +109,9 @@ table, th, td {
 				</b>
 				<br>
 				<br>
-				<h4><b>Row data</b></h4> <br>
+				<h4><b>Raw data</b></h4> <br>
 				<ul>
-					<li> 2 datasets: accepted (12.3%)and refused(81.7%) loan.</li>
+					<li> 2 datasets: accepted (<b>12.3%</b>) and refused (<b>81.7%</b>) loan.</li>
 					<li> Accepted loan dataset made of 887'441 rows x 111 columns. (12.3%)<br> Most important columns: </li>
 					<ul>
 						<li> The total amount requested by the borrower.</li>
@@ -160,11 +164,11 @@ table, th, td {
 </div>
 
 
-<div id="model" class="container-fluid">
-	<h2 class="text-center"> MODEL </h2>
+<div id="model1" class="container-fluid">
+	<h2 class="text-center"> MODEL1 </h2>
 	<p>
 		<div>
-		My first model is about predicting the acceptance of a loan given the following features: <br>
+		The first model is about <font size="4">predicting the acceptance of a loan</font> given the following features: <br>
 		<ul>
 			<li> The requested amount.</li>
 			<li> Debt to income ratio.</li>
@@ -172,26 +176,26 @@ table, th, td {
 			<li> Month of request. </li>
 			<li> Employment length.</li>
 		</ul> <br>
-		I model this problem as a classification model and I will use a <a href="http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html">Logistic Regression </a>: <br>
+		This is a classification model and the <a href="http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html">Logistic Regression</a> model wil be used: <br>
 		<center>{\displaystyle logit(p)=\beta _{0}+\beta _{1}x_{1}+\beta _{2}x_{2}+\beta _{3}x_{3}+\dots +\beta _{k}x_{k}=X\beta }</center><br>
 		The Logistic Regression outputs the probability of belonging to a class. If the probability is greater or equal
 		than a <i>threshold</i>, the sample will be assigned to class 1 (= Accepted) otherwise to class 0 (=Refused).<br>
-		This a problem with highly unbalances class: in the available data only 12% of the loan have been accepted.
+		This a problem with highly unbalances class: in the available data only 12.3% of the loan have been accepted.
 		<br><br>
+		</div>
 
-		<h4> <b>Grid search to determine the regularization parameter <i>C</i></b> </h4>
+		<h4> <b>1. Grid search to determine the regularization parameter <i>C</i></b> </h4>
 		The <i>C</i> parameter in the Logistic Regression specify the strength of the regularization. Smaller values
 		correspond to stronger regularization. In order to predict the acceptance of a rate I look for C values maximizing
 		both the f1 and the recall score.
 		<ul>
-			<li> <b>F1 score</b>: C = 0.02812</li>
-			<li> <b>Recall score</b>: C = 0.0001</li>
+			<li> F1 score: <i>C</i> = 0.02812</li>
+			<li> Recall score: <i>C</i> = 0.0001</li>
 		</ul>
-		<h4> <b>ROC curve analysis to determine the best <i>threshold</i></b></h4>
+		<br><br>
 
 
-		</div>
-
+		<h4> <b>2. ROC curve analysis to determine the best <i>threshold</i></b></h4>
 		<div class="row">
 			<div class="col-sm-6">
 				<center> <font class="column-divisor">C = 0.0001</font></center>
@@ -383,17 +387,57 @@ table, th, td {
 
 			</div>
 		</div>
+		<br><br>
+
+		<h4> <b>3. Results</b> </h4>
+		The following graphs represent the value of the coefficient in the Logistic model.
+		<br>
+		<div class="row">
+			<center> <font class="column-divisor">C = 0.0001</font></center>
+		</div>
+		<br>
+		<div class="row">
+			<center> {{ plot_div_e| safe}} </center>
+		</div>
+		<br>
+		<div class="row">
+			<center> {{ plot_div_m| safe}} </center>
+		</div>
+		<br>
+		<div class="row">
+			<center> {{ plot_div_s| safe}} </center>
+		</div>
+		<br>
+		<div class="row">
+			<center> {{ plot_div_o| safe}} </center>
+		</div>
+
+		<br><br>
+
 	</p>
 </div>
 
+<div id="model2" class="container-fluid bg-grey">
+	<h2 class="text-center"> MODEL2 </h2>
 
-<div id="contact" class="container-fluid bg-grey">
+	Introduzione a 1. cosa voglio predire 2. Che modello usare
+
+	<h4> <b>1. Data Transformation</b> </h4>
+
+	<h4> <b>2. Parameter Tuning</b> </h4>
+
+	<h4> <b>3. Results Comparison</b> </h4>
+
+
+</div>
+
+<div id="contact" class="container-fluid">
   <h2 class="text-center">CONTACT</h2>
   <div class="row">
     <div class="col-sm-5">
       <p>Contact me if you have some feedbacks!</p>
 		<p><span class="glyphicon glyphicon-user"></span> Nina Desgranges</p>
-        <p><span class="glyphicon glyphicon-map-marker"></span> Via Kock, 1/4, Milan, ITALY</p>
+        <p><span class="glyphicon glyphicon-map-marker"></span> Via Kock, 1/4, Milan, IT</p>
         <p><span class="glyphicon glyphicon-phone"></span> +39 3460378806</p>
         <p><span class="glyphicon glyphicon-envelope"></span> n.desgranges@reply.it</p>
     </div>
@@ -441,7 +485,8 @@ table, th, td {
       <ul class="nav navbar-nav navbar-right">
         <li><a href="#theproject">THE PROJECT</a></li>
         <li><a href="#data">DATA</a></li>
-        <li><a href="#model">MODEL</a></li>
+        <li><a href="#model1">MODEL1</a></li>
+		  <li><a href="#model2">MODEL2</a></li>
         <li><a href="#contact">CONTACT</a></li>
       </ul>
     </div>

@@ -2,9 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6a0ca029-a10b-416d-84e3-bfcc90d69287" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/rate_model.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app.py" afterPath="$PROJECT_DIR$/app.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/data_analysis.py" afterPath="$PROJECT_DIR$/src/data_analysis.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main.py" afterPath="$PROJECT_DIR$/src/main.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/rate_model.py" afterPath="$PROJECT_DIR$/src/rate_model.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/welcome.html" afterPath="$PROJECT_DIR$/templates/welcome.html" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -17,24 +19,114 @@
   <component name="CreatePatchCommitExecutor">
     <option name="PATCH_PATH" value="" />
   </component>
+  <component name="DockManager">
+    <window id="1">
+      <content type="file-editors">
+        <state>
+          <leaf>
+            <file leaf-file-name="app.py" pinned="false" current-in-tab="true">
+              <entry file="file://$PROJECT_DIR$/app.py">
+                <provider selected="true" editor-type-id="text-editor">
+                  <state relative-caret-position="319">
+                    <caret line="73" column="25" lean-forward="false" selection-start-line="73" selection-start-column="12" selection-end-line="73" selection-end-column="25" />
+                    <folding />
+                  </state>
+                </provider>
+              </entry>
+            </file>
+          </leaf>
+        </state>
+      </content>
+    </window>
+  </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="rate_model.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="rate_model.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/rate_model.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="119">
-              <caret line="7" column="0" lean-forward="false" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
+            <state relative-caret-position="-159">
+              <caret line="416" column="19" lean-forward="false" selection-start-line="416" selection-start-column="19" selection-end-line="416" selection-end-column="19" />
               <folding>
-                <element signature="e#851#1962#0" expanded="false" />
-                <element signature="e#2040#2360#0" expanded="false" />
-                <element signature="e#2428#3110#0" expanded="false" />
-                <element signature="e#3207#4574#0" expanded="false" />
-                <element signature="e#4602#6787#0" expanded="false" />
-                <element signature="e#6857#8081#0" expanded="false" />
-                <element signature="e#8149#11694#0" expanded="false" />
-                <element signature="e#11772#13231#0" expanded="false" />
+                <element signature="e#0#19#0" expanded="true" />
+                <element signature="e#901#2012#0" expanded="false" />
+                <element signature="e#2090#2410#0" expanded="false" />
+                <element signature="e#2478#3160#0" expanded="false" />
+                <element signature="e#3257#4624#0" expanded="false" />
+                <element signature="e#4652#6837#0" expanded="false" />
+                <element signature="e#6907#8131#0" expanded="false" />
+                <element signature="e#8199#11744#0" expanded="false" />
+                <element signature="e#11822#13281#0" expanded="false" />
+                <element signature="e#13350#14304#0" expanded="false" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="data_analysis.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/data_analysis.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="329">
+              <caret line="628" column="35" lean-forward="false" selection-start-line="628" selection-start-column="35" selection-end-line="628" selection-end-column="35" />
+              <folding>
+                <element signature="e#0#29#0" expanded="true" />
+                <element signature="e#1414#2738#0" expanded="false" />
+                <element signature="e#2786#4927#0" expanded="false" />
+                <element signature="e#4949#5215#0" expanded="false" />
+                <element signature="e#8466#10579#0" expanded="false" />
+                <element signature="e#10623#15965#0" expanded="false" />
+                <element signature="e#17238#17527#0" expanded="false" />
+                <element signature="e#17559#19590#0" expanded="false" />
+                <element signature="e#19637#21984#0" expanded="false" />
+                <element signature="e#22249#22276#0" expanded="false" />
+                <element signature="e#23101#24178#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="bar_builder.py" pinned="false" current-in-tab="false">
+        <entry file="file://$USER_HOME$/AppData/Local/Continuum/Anaconda2/Lib/site-packages/bokeh/charts/builders/bar_builder.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="17">
+              <caret line="238" column="4" lean-forward="false" selection-start-line="238" selection-start-column="4" selection-end-line="238" selection-end-column="4" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="welcome.html" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/templates/welcome.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-122">
+              <caret line="419" column="48" lean-forward="false" selection-start-line="419" selection-start-column="48" selection-end-line="419" selection-end-column="48" />
+              <folding>
+                <element signature="n#div#0;n#html#0;n#!!top" expanded="false" />
+                <element signature="n#div#1;n#html#0;n#!!top" expanded="false" />
+                <element signature="n#div#2;n#html#0;n#!!top" expanded="false" />
+                <element signature="n#div#3;n#html#0;n#!!top" expanded="false" />
+                <element signature="n#div#4;n#html#0;n#!!top" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="gridSearchKNN - Copy.csv" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/data_local/gridSearchKNN - Copy.csv">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="187">
+              <caret line="11" column="32" lean-forward="false" selection-start-line="11" selection-start-column="32" selection-end-line="11" selection-end-column="32" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="gridSearchKNN.csv" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/data_local/gridSearchKNN.csv">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="51">
+              <caret line="3" column="0" lean-forward="false" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -42,8 +134,8 @@
       <file leaf-file-name="main.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="833">
-              <caret line="52" column="9" lean-forward="false" selection-start-line="52" selection-start-column="9" selection-end-line="52" selection-end-column="9" />
+            <state relative-caret-position="460">
+              <caret line="54" column="0" lean-forward="false" selection-start-line="54" selection-start-column="0" selection-end-line="54" selection-end-column="0" />
               <folding>
                 <element signature="e#0#26#0" expanded="true" />
               </folding>
@@ -54,8 +146,8 @@
       <file leaf-file-name="accepted_refused_model.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/accepted_refused_model.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="459">
-              <caret line="223" column="17" lean-forward="false" selection-start-line="223" selection-start-column="10" selection-end-line="223" selection-end-column="17" />
+            <state relative-caret-position="323">
+              <caret line="249" column="20" lean-forward="false" selection-start-line="249" selection-start-column="20" selection-end-line="249" selection-end-column="20" />
               <folding>
                 <element signature="e#832#1819#0" expanded="false" />
                 <element signature="e#1853#3436#0" expanded="false" />
@@ -63,16 +155,6 @@
                 <element signature="e#4138#6502#0" expanded="false" />
                 <element signature="e#12236#12815#0" expanded="false" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="welcome.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/welcome.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="342">
-              <caret line="378" column="55" lean-forward="false" selection-start-line="378" selection-start-column="55" selection-end-line="378" selection-end-column="55" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -89,11 +171,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>circ</find>
-      <find>checkbox</find>
-      <find>Southeast</find>
-      <find>ak</find>
-      <find>x ax</find>
       <find>accepted loans</find>
       <find>DictVectorizer</find>
       <find>dataTransform</find>
@@ -119,6 +196,11 @@
       <find>train_test_split</find>
       <find>container-fluid</find>
       <find>#</find>
+      <find>logistic</find>
+      <find>template</find>
+      <find>{{</find>
+      <find>c =</find>
+      <find>false positive re</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -142,20 +224,21 @@
         <option value="$PROJECT_DIR$/templates/perc_over_time.html" />
         <option value="$PROJECT_DIR$/templates/us_map.html" />
         <option value="$PROJECT_DIR$/templates/index.html" />
+        <option value="$PROJECT_DIR$/data_local/gridSearchKNN - Copy.csv" />
         <option value="$PROJECT_DIR$/src/accepted_refused_model.py" />
         <option value="$PROJECT_DIR$/app.py" />
-        <option value="$PROJECT_DIR$/src/data_analysis.py" />
-        <option value="$PROJECT_DIR$/src/main.py" />
         <option value="$PROJECT_DIR$/templates/welcome.html" />
+        <option value="$PROJECT_DIR$/src/main.py" />
         <option value="$PROJECT_DIR$/src/rate_model.py" />
+        <option value="$PROJECT_DIR$/src/data_analysis.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-8" />
+    <option name="x" value="1358" />
     <option name="y" value="-8" />
-    <option name="width" value="1382" />
-    <option name="height" value="744" />
+    <option name="width" value="1936" />
+    <option name="height" value="1056" />
   </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1">
@@ -172,6 +255,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -214,13 +299,11 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
-      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="settings.editor.selected.configurable" value="configurable.group.appearance" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../tdi-flask" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -228,7 +311,7 @@
       <recent name="C:\Users\n.desgranges\Documents\PROGETTI\Progetto Personale\loan\loan_project\python-getting-started\all_previous\data_Nina" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.app">
+  <component name="RunManager" selected="Python.main">
     <configuration default="false" name="main" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -457,8 +540,8 @@
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="Python.app" />
-        <item index="1" class="java.lang.String" itemvalue="Python.main" />
+        <item index="0" class="java.lang.String" itemvalue="Python.main" />
+        <item index="1" class="java.lang.String" itemvalue="Python.app" />
         <item index="2" class="java.lang.String" itemvalue="Python.plot_kernel_pca" />
         <item index="3" class="java.lang.String" itemvalue="Python.test" />
         <item index="4" class="java.lang.String" itemvalue="Python.accepted_refused_model" />
@@ -491,15 +574,15 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
-    <editor active="true" />
+    <frame x="1358" y="-8" width="1936" height="1056" extended-state="6" />
+    <editor active="false" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.04910714" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18967333" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3289689" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3289689" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3289689" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15384616" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.29469123" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2667758" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -510,7 +593,7 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2782324" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.27735645" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
@@ -549,35 +632,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/venv/Lib/site-packages/gunicorn/app/wsgiapp.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/settings.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" column="36" lean-forward="false" selection-start-line="4" selection-start-column="36" selection-end-line="4" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/venv/Lib/site-packages/bokeh/sampledata/us_states.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="680">
-          <caret line="46" column="0" lean-forward="false" selection-start-line="46" selection-start-column="0" selection-end-line="46" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/venv/Lib/site-packages/bokeh/command/subcommands/sampledata.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="207">
-          <caret line="25" column="19" lean-forward="false" selection-start-line="25" selection-start-column="19" selection-end-line="25" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/test_interactivity" />
     <entry file="file://$PROJECT_DIR$/src/test.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="102">
@@ -733,13 +787,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/script_roc_'+c+'.txt" />
-    <entry file="file://$PROJECT_DIR$/app.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="561">
-          <caret line="63" column="29" lean-forward="false" selection-start-line="63" selection-start-column="12" selection-end-line="63" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/AppData/Local/Continuum/Anaconda2/Lib/site-packages/sklearn/preprocessing/imputation.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="79">
@@ -775,33 +822,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/data_analysis.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="449">
-          <caret line="583" column="31" lean-forward="false" selection-start-line="583" selection-start-column="30" selection-end-line="583" selection-end-column="31" />
-          <folding>
-            <element signature="e#0#29#0" expanded="false" />
-            <element signature="e#1371#2695#0" expanded="false" />
-            <element signature="e#2743#4884#0" expanded="false" />
-            <element signature="e#4906#5172#0" expanded="false" />
-            <element signature="e#5216#8380#0" expanded="false" />
-            <element signature="e#8423#10536#0" expanded="false" />
-            <element signature="e#10580#15922#0" expanded="false" />
-            <element signature="e#15959#17153#0" expanded="false" />
-            <element signature="e#17191#17480#0" expanded="false" />
-            <element signature="e#17512#19543#0" expanded="false" />
-            <element signature="e#19546#19573#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Downloads/plot_kernel_pca.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-753">
-          <caret line="11" column="25" lean-forward="true" selection-start-line="11" selection-start-column="25" selection-end-line="11" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$USER_HOME$/Downloads/plot_kernel_pca.py" />
     <entry file="file://$USER_HOME$/AppData/Local/Continuum/Anaconda2/Lib/site-packages/sklearn/metrics/pairwise.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="85">
@@ -838,10 +859,48 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Continuum/Anaconda2/Lib/site-packages/bokeh/charts/properties.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="143">
+          <caret line="171" column="0" lean-forward="false" selection-start-line="171" selection-start-column="0" selection-end-line="171" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Continuum/Anaconda2/Lib/site-packages/bokeh/charts/builder.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="143">
+          <caret line="293" column="0" lean-forward="false" selection-start-line="293" selection-start-column="0" selection-end-line="293" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Continuum/Anaconda2/Lib/site-packages/bokeh/charts/builders/bar_builder.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="238" column="4" lean-forward="false" selection-start-line="238" selection-start-column="4" selection-end-line="238" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/data_local/gridSearchKNN - Copy.csv">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="11" column="32" lean-forward="false" selection-start-line="11" selection-start-column="32" selection-end-line="11" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="319">
+          <caret line="73" column="25" lean-forward="false" selection-start-line="73" selection-start-column="12" selection-end-line="73" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/accepted_refused_model.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="459">
-          <caret line="223" column="17" lean-forward="false" selection-start-line="223" selection-start-column="10" selection-end-line="223" selection-end-column="17" />
+        <state relative-caret-position="323">
+          <caret line="249" column="20" lean-forward="false" selection-start-line="249" selection-start-column="20" selection-end-line="249" selection-end-column="20" />
           <folding>
             <element signature="e#832#1819#0" expanded="false" />
             <element signature="e#1853#3436#0" expanded="false" />
@@ -852,37 +911,73 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/data_local/gridSearchKNN.csv">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="3" column="0" lean-forward="false" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="833">
-          <caret line="52" column="9" lean-forward="false" selection-start-line="52" selection-start-column="9" selection-end-line="52" selection-end-column="9" />
+        <state relative-caret-position="460">
+          <caret line="54" column="0" lean-forward="false" selection-start-line="54" selection-start-column="0" selection-end-line="54" selection-end-column="0" />
           <folding>
             <element signature="e#0#26#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/welcome.html">
+    <entry file="file://$PROJECT_DIR$/src/rate_model.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="342">
-          <caret line="378" column="55" lean-forward="false" selection-start-line="378" selection-start-column="55" selection-end-line="378" selection-end-column="55" />
-          <folding />
+        <state relative-caret-position="-159">
+          <caret line="416" column="19" lean-forward="false" selection-start-line="416" selection-start-column="19" selection-end-line="416" selection-end-column="19" />
+          <folding>
+            <element signature="e#0#19#0" expanded="true" />
+            <element signature="e#901#2012#0" expanded="false" />
+            <element signature="e#2090#2410#0" expanded="false" />
+            <element signature="e#2478#3160#0" expanded="false" />
+            <element signature="e#3257#4624#0" expanded="false" />
+            <element signature="e#4652#6837#0" expanded="false" />
+            <element signature="e#6907#8131#0" expanded="false" />
+            <element signature="e#8199#11744#0" expanded="false" />
+            <element signature="e#11822#13281#0" expanded="false" />
+            <element signature="e#13350#14304#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/rate_model.py">
+    <entry file="file://$PROJECT_DIR$/src/data_analysis.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" column="0" lean-forward="false" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
+        <state relative-caret-position="329">
+          <caret line="628" column="35" lean-forward="false" selection-start-line="628" selection-start-column="35" selection-end-line="628" selection-end-column="35" />
           <folding>
-            <element signature="e#851#1962#0" expanded="false" />
-            <element signature="e#2040#2360#0" expanded="false" />
-            <element signature="e#2428#3110#0" expanded="false" />
-            <element signature="e#3207#4574#0" expanded="false" />
-            <element signature="e#4602#6787#0" expanded="false" />
-            <element signature="e#6857#8081#0" expanded="false" />
-            <element signature="e#8149#11694#0" expanded="false" />
-            <element signature="e#11772#13231#0" expanded="false" />
+            <element signature="e#0#29#0" expanded="true" />
+            <element signature="e#1414#2738#0" expanded="false" />
+            <element signature="e#2786#4927#0" expanded="false" />
+            <element signature="e#4949#5215#0" expanded="false" />
+            <element signature="e#8466#10579#0" expanded="false" />
+            <element signature="e#10623#15965#0" expanded="false" />
+            <element signature="e#17238#17527#0" expanded="false" />
+            <element signature="e#17559#19590#0" expanded="false" />
+            <element signature="e#19637#21984#0" expanded="false" />
+            <element signature="e#22249#22276#0" expanded="false" />
+            <element signature="e#23101#24178#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/welcome.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-122">
+          <caret line="419" column="48" lean-forward="false" selection-start-line="419" selection-start-column="48" selection-end-line="419" selection-end-column="48" />
+          <folding>
+            <element signature="n#div#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="n#div#1;n#html#0;n#!!top" expanded="false" />
+            <element signature="n#div#2;n#html#0;n#!!top" expanded="false" />
+            <element signature="n#div#3;n#html#0;n#!!top" expanded="false" />
+            <element signature="n#div#4;n#html#0;n#!!top" expanded="false" />
           </folding>
         </state>
       </provider>

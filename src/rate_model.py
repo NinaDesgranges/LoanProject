@@ -17,6 +17,7 @@ from sklearn.preprocessing import normalize
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.pipeline import FeatureUnion
 from sklearn.linear_model import LinearRegression
+from sklearn.neighbors import KNeighborsRegressor
 
 class dataTransform(base.BaseEstimator, base.TransformerMixin):
     def __init__(self, columns, applyTransformation, columnsAppend):
@@ -364,6 +365,44 @@ def modelingRandomForest(path=DATA_LOCAL + 'accepted_trans_red.csv'):
                 print str(i) + ' - ' + str(j) + ' - ' + str(k)
 
 
+def modelingKNN(path=DATA_LOCAL + 'accepted_trans_red.csv'):
+
+    print 'Open data'
+    data = pd.read_csv(path)
+
+    y = data['int_rate']
+    X = data.drop('int_rate', axis=1)
+
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=101)
+
+    print y_test.var()
+
+    n_neig = [200, 250] #['rbf', 'laplacian', 'sigmoid', 'poly']#'sigmoid', 'laplacian'] # 'rbf', 'poly',
+
+
+    mse = []
+    r2 = []
+    n_neighbor = []
+    # max_feat = []
+    # min_samples_spl = []
+
+    for i in n_neig:
+        print str(i)
+        print 'Fit model'
+        model_2 = KNeighborsRegressor(n_neighbors=i)
+        model_2.fit(X_train, y_train)
+        y_pred = model_2.predict(X_test)
+        mse_1 = mean_squared_error(y_test, y_pred)
+        r2_1 = r2_score(y_test, y_pred)
+        mse.append(mse_1)
+        r2.append(r2_1)
+        n_neighbor.append(i)
+
+        results = pd.DataFrame({'n_neighbor': n_neighbor, 'mse': mse, 'r2': r2})
+        results.to_csv(DATA_LOCAL + 'gridSearchKNN.csv', index=False)
+
+
+
 def ensambleModel(path=DATA_LOCAL + 'accepted_trans_red.csv'):
 
     print 'Open data'
@@ -374,8 +413,10 @@ def ensambleModel(path=DATA_LOCAL + 'accepted_trans_red.csv'):
 
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=101)
 
-    nysro = Nystroem(kernel='laplacian', gamma=0.007)
-    # nysro = Nystroem(kernel='rbf', gamma=0.007)
+    print np.var(y_test)
+    # 19.2107664577
+
+    nysro = Nystroem(kernel='laplacian', gamma=0.005)
     lin_svr = EstimatorTransformer(svm.LinearSVR(C=13))
 
     pipe_svr = Pipeline([
@@ -383,18 +424,20 @@ def ensambleModel(path=DATA_LOCAL + 'accepted_trans_red.csv'):
         ('lin_svr', lin_svr)
     ])
 
-    # rand_for = EstimatorTransformer(RandomForestRegressor(random_state=101, n_estimators=15, max_features='auto', min_samples_split=80))
     rand_for = EstimatorTransformer(RandomForestRegressor(random_state=101, n_estimators=150, max_features='auto', min_samples_split=80))
+
+    knn = EstimatorTransformer(KNeighborsRegressor(n_neighbors=250))
 
     ensamble = FeatureUnion([
         ('svr', pipe_svr),
-        ('random_forest', rand_for)
+        ('random_forest', rand_for),
+        ('knn', knn)
     ])
 
     final_model = Pipeline([
         ('union', ensamble),
-        ('kern', Nystroem(kernel='poly', gamma=0.0001)),
-        ('linear_reg', svm.LinearSVR(C=0.01))
+        ('kern', Nystroem(kernel='poly')),
+        ('linear_reg', svm.LinearSVR())
     ])
 
     final_model.fit(X_train, y_train)

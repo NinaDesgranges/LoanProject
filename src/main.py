@@ -50,4 +50,8 @@ from settings import DATA
 
 # rm.modelingRandomForest()
 
+# rm.modelingKNN()
+
 rm.ensambleModel()
+
+# da.templateCoefRegression()

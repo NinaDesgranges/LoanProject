@@ -53,6 +53,8 @@ def welcome():
         script_roc_c002812, div_roc_c002812 = da.templateROC(c='c002812')
         script_roc_c00001, div_roc_00001 = da.templateROC(c='c00001')
 
+        coeff_values = da.templateCoefRegression()
+
         return render_template(
             'welcome.html',
             js_resources=js_resources,
@@ -64,7 +66,15 @@ def welcome():
             plot_script_roc_1=script_roc_c00001,
             plot_div_roc_1=div_roc_00001,
             plot_script_roc_2=script_roc_c002812,
-            plot_div_roc_2=div_roc_c002812
+            plot_div_roc_2=div_roc_c002812,
+            plot_script_m=coeff_values['month'][0],
+            plot_div_m=coeff_values['month'][1],
+            plot_script_e=coeff_values['empl'][0],
+            plot_div_e=coeff_values['empl'][1],
+            plot_script_s=coeff_values['state'][0],
+            plot_div_s=coeff_values['state'][1],
+            plot_script_o=coeff_values['other'][0],
+            plot_div_o=coeff_values['other'][1]
         )
 
     else:
