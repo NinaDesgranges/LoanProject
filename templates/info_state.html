@@ -1,14 +1,44 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>correlation plot</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+ 	 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+ 	 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <title>Correlation Graphs</title>
+
     {{ js_resources|indent(4)|safe }}
     {{ css_resources|indent(4)|safe }}
     {{ plot_script_corr|indent(4)|safe }}
   </head>
+
+  <style>
+    .button1{
+      background-color: #00CC66;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;}
+  </style>
   <body>
       <h1> {{state}} - Loan Rate Correlations</h1>
-        {{ plot_div_corr|indent(4)|safe }}
+      <div class="row">
+        <center>{{ plot_div_corr|indent(4)|safe }}</center>
+      </div>
+      <br>
+      <br>
+      <br>
+      <div>
+        <form action="/welcome" method="get">
+          <center> <button class="btn btn-default button1" name="map">Go Back</button> </center>
+        </form>
+      </div>
+
+
   </body>
 </html>

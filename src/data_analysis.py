@@ -44,7 +44,7 @@ import os.path
 
 # from sklearn.model_selection import train_test_split
 ACC_REF_HEADER = ['title', 'amnt', 'zip', 'state', 'emp_len', 'dti', 'date', 'loan']
-
+LIGHT_GREEN = "#b2ff7f"
 
 def createNewDataset():
     '''
@@ -203,8 +203,8 @@ def templateUsMapPercAcceptedLoan():
                tools=TOOLS)
     p.yaxis.axis_label = 'Latitude'
     p.xaxis.axis_label = 'Longitude'
-    p.background_fill_color = "#b2ff7f"
-    p.border_fill_color = "#b2ff7f"
+    p.background_fill_color = LIGHT_GREEN
+    p.border_fill_color = LIGHT_GREEN
 
     p.patches('x', 'y', source=source,
               fill_color={'field': 'rate', 'transform': cm},
@@ -216,7 +216,7 @@ def templateUsMapPercAcceptedLoan():
                          # ticker=ticker,
                          # formatter=formatter
                          )
-    color_bar.background_fill_color = "#b2ff7f"
+    color_bar.background_fill_color = LIGHT_GREEN
     p.add_layout(color_bar, 'right')
 
     hover = p.select_one(HoverTool)
@@ -276,7 +276,7 @@ def templateRateCorrelation(state):
     plot = Figure(title=None, height=400, width=600, tools=TOOLS)
 
     # Make a line and connect to data source
-    plot.circle(x="x", y="y", line_color="#2ca02c", line_width=6, line_alpha=0.6, source=source)
+    plot.circle(x="x", y="y", line_color="#0062cc", line_width=6, line_alpha=0.6, source=source)
     plot.yaxis.axis_label = 'Loan Rate'
     plot.yaxis[0].formatter = NumeralTickFormatter(format="0.0%")
 
@@ -340,9 +340,9 @@ def templateAcceptedLoanPerRegion():
 
     p.yaxis.axis_label = 'Percentage of accepted loans'
     p.yaxis[0].formatter = NumeralTickFormatter(format="0.0%")
-    p.border_fill_color = "#b2ff7f"
-    p.background_fill_color = "#b2ff7f"
-    p.legend.background_fill_color = "#b2ff7f"
+    p.border_fill_color = LIGHT_GREEN
+    p.background_fill_color = LIGHT_GREEN
+    p.legend.background_fill_color = LIGHT_GREEN
     p.legend.background_fill_alpha = 0.5
 
     checkbox = CheckboxGroup(
@@ -433,8 +433,8 @@ def templateAcceptedLoanPerRegion():
     q.min_border_right = False
     q.min_border_top = False
     q.min_border_bottom = False
-    q.border_fill_color = "#b2ff7f"
-    q.background_fill_color = "#b2ff7f"
+    q.border_fill_color = LIGHT_GREEN
+    q.background_fill_color = LIGHT_GREEN
 
     q.patches('x', 'y', source=source,
               fill_color='colors',
@@ -467,8 +467,8 @@ def templateROC(c='c002812'):
     p.line([0, 1], [0, 1], line_dash='dashed', line_alpha=0.6)
     p.yaxis.axis_label = 'True Positive Rate'
     p.xaxis.axis_label = 'False Positive Rate'
-    # p.background_fill_color = "#b2ff7f"
-    # p.border_fill_color = "#b2ff7f"
+    # p.background_fill_color = LIGHT_GREEN
+    # p.border_fill_color = LIGHT_GREEN
 
     hover = p.select_one(HoverTool)
     hover.point_policy = "follow_mouse"
@@ -569,7 +569,7 @@ def templateCoefRegression(c='c00001'):
     hover.point_policy = "follow_mouse"
     hover.tooltips = [
         ("Coef: ", "@coef"),
-        ("Value: ", "@y")
+        ("Value: ", "@height")
     ]
     # show(pMonth)
 
@@ -581,7 +581,7 @@ def templateCoefRegression(c='c00001'):
     hover.point_policy = "follow_mouse"
     hover.tooltips = [
         ("Coef: ", "@coef"),
-        ("Value: ", "@y")
+        ("Value: ", "@height")
 
     ]
     # show(pEmpl)
@@ -594,7 +594,7 @@ def templateCoefRegression(c='c00001'):
     hover.point_policy = "follow_mouse"
     hover.tooltips = [
         ("Coef: ", "@coef"),
-        ("Value: ", "@y")
+        ("Value: ", "@height")
 
     ]
 
@@ -608,7 +608,7 @@ def templateCoefRegression(c='c00001'):
     hover.point_policy = "follow_mouse"
     hover.tooltips = [
         ("Coef: ", "@coef"),
-        ("Value: ", "@y")
+        ("Value: ", "@height")
 
     ]
 
@@ -626,13 +626,32 @@ def templateCoefRegression(c='c00001'):
 
 def templateMSEComparison():
 
-    algorithm = ['Mean Value', 'KNN', 'SVR', 'Random Forest', 'Ensamble Model']
     # best svr: 13,0.005,laplacian
     # best KNN: 250
     # best Rand Forest: auto - 80  - 150
 
-    MSE = [19.2108, 15.6561, 14.7079,  14.2407, 0.0]
+    df = pd.DataFrame({'algo': ['Mean Value', 'KNN', 'SVR', 'Random Forest', 'Ensamble Model'],
+                      'mse': [19.2108, 15.6561, 14.7079,  14.2407, 0.0]})
 
+
+    p = Bar(df, 'algo', values='mse', legend=False, tools='hover')
+    p.x_range = FactorRange(factors=df['algo'].tolist())
+    p.xaxis.axis_label = 'Algorithm'
+    p.yaxis.axis_label = 'Mean Square Error'
+
+    p.background_fill_color = LIGHT_GREEN
+    p.border_fill_color = LIGHT_GREEN
+
+    hover = p.select_one(HoverTool)
+    hover.point_policy = "follow_mouse"
+    hover.tooltips = [
+        ("Algorithm: ", "@algo"),
+        ("MSE: ", "@height")
+    ]
+
+    script, div = components(p)
+
+    return script, div
 
 # def createSmallDataset():
 #

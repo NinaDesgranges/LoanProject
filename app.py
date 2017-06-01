@@ -55,6 +55,8 @@ def welcome():
 
         coeff_values = da.templateCoefRegression()
 
+        scriptMSE, divMSE = da.templateMSEComparison()
+
         return render_template(
             'welcome.html',
             js_resources=js_resources,
@@ -74,7 +76,9 @@ def welcome():
             plot_script_s=coeff_values['state'][0],
             plot_div_s=coeff_values['state'][1],
             plot_script_o=coeff_values['other'][0],
-            plot_div_o=coeff_values['other'][1]
+            plot_div_o=coeff_values['other'][1],
+            plot_script_mse=scriptMSE,
+            plot_div_mse=divMSE
         )
 
     else:

@@ -52,6 +52,16 @@ from settings import DATA
 
 # rm.modelingKNN()
 
+# da.templateMSEComparison()
+
 rm.ensambleModel()
+# linear regression
+# 16.9224284813
+# 0.119117474121
+
+# ('kern', Nystroem(kernel='poly')),
+# ('linear_reg', svm.LinearSVR())
+# 17.611769317
+# 0.0832344271216
 
 # da.templateCoefRegression()

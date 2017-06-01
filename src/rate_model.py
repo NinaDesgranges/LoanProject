@@ -402,11 +402,11 @@ def modelingKNN(path=DATA_LOCAL + 'accepted_trans_red.csv'):
         results.to_csv(DATA_LOCAL + 'gridSearchKNN.csv', index=False)
 
 
-
 def ensambleModel(path=DATA_LOCAL + 'accepted_trans_red.csv'):
 
     print 'Open data'
     data = pd.read_csv(path)
+
 
     y = data['int_rate']
     X = data.drop('int_rate', axis=1)
@@ -434,24 +434,40 @@ def ensambleModel(path=DATA_LOCAL + 'accepted_trans_red.csv'):
         ('knn', knn)
     ])
 
+    # final_model = Pipeline([
+    #     ('union', ensamble),
+    #     ('kern', Nystroem(kernel='poly')),
+    #     ('linear_reg', LinearRegression())
+    # ])
+
+    # final_model = Pipeline([
+    #     ('union', ensamble),
+    #     ('kern', Nystroem(kernel='poly')),
+    #     ('linear_reg', svm.LinearSVR())
+    # ])
+    #
+
     final_model = Pipeline([
-        ('union', ensamble),
-        ('kern', Nystroem(kernel='poly')),
-        ('linear_reg', svm.LinearSVR())
+        ('union', ensamble)
     ])
 
     final_model.fit(X_train, y_train)
 
-    y_pred = final_model.predict(X_test)
+    # y_pred = final_model.predict(X_test)
+    y_pred_test = pd.DataFrame(final_model.transform(X_test))
+    y_pred_test['int_rate'] = np.array(y_test)
+    pd.DataFrame(y_pred_test).to_csv(DATA_LOCAL + 'predictions_model_test.csv', index=False)
 
-    mse_1 = mean_squared_error(y_test, y_pred)
-    r2_1 = r2_score(y_test, y_pred)
+    y_pred_train = pd.DataFrame(final_model.transform(X_train))
+    y_pred_train['int_rate'] = np.array(y_train)
+    pd.DataFrame(y_pred_train).to_csv(DATA_LOCAL + 'predictions_model_train.csv', index=False)
 
-    print mse_1
-    print r2_1
 
-    # 14.2689852054
-    # 0.257240192015
+    # mse_1 = mean_squared_error(y_test, y_pred)
+    # r2_1 = r2_score(y_test, y_pred)
+
+    # print mse_1
+    # print r2_1
 
 
 
