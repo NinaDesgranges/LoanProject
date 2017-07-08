@@ -630,8 +630,8 @@ def templateMSEComparison():
     # best KNN: 250
     # best Rand Forest: auto - 80  - 150
 
-    df = pd.DataFrame({'algo': ['Mean Value', 'KNN', 'SVR', 'Random Forest', 'Ensamble Model'],
-                      'mse': [19.2108, 15.6561, 14.7079,  14.2407, 0.0]})
+    df = pd.DataFrame({'algo': ['Mean Value', 'KNN', 'SVR', 'Random Forest', 'Ensamble Model - Lasso Regression'],
+                      'mse': [19.2108, 15.6561, 14.7649,  14.2407, 14.2400]})
 
 
     p = Bar(df, 'algo', values='mse', legend=False, tools='hover')

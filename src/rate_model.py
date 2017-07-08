@@ -14,10 +14,11 @@ import timeit
 from sklearn.kernel_approximation import RBFSampler
 from sklearn.kernel_approximation import Nystroem
 from sklearn.preprocessing import normalize
-from sklearn.ensemble import RandomForestRegressor
+from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor
 from sklearn.pipeline import FeatureUnion
-from sklearn.linear_model import LinearRegression
+from sklearn.linear_model import LinearRegression, Ridge, RidgeCV, Lasso, LassoCV
 from sklearn.neighbors import KNeighborsRegressor
+
 
 class dataTransform(base.BaseEstimator, base.TransformerMixin):
     def __init__(self, columns, applyTransformation, columnsAppend):
@@ -170,14 +171,12 @@ def featuresReduction(path=DATA_LOCAL + 'accepted_trans.csv'):
     X_columns_name = X.columns.values
     # X = normalize(X, axis=0)
     # X = norm.fit_transform(X)
-    X = X.apply(lambda x: (x - x.mean()) / (x.max()-x.min() + .1))
+    X = X.apply(lambda x: (x - x.mean()) / (x.max() - x.min() + .1))
     print X.shape
     med = X.mean(axis=0)
     stdv = X.std(axis=0)
     print med
     print stdv
-
-
 
     print 'Fit Transform the model'
 
@@ -259,7 +258,7 @@ def modelingSVR(path=DATA_LOCAL + 'accepted_trans_red.csv'):
     # f.close()
 
 
-    kernel = ['laplacian'] #['rbf', 'laplacian', 'sigmoid', 'poly']#'sigmoid', 'laplacian'] # 'rbf', 'poly',
+    kernel = ['laplacian']  # ['rbf', 'laplacian', 'sigmoid', 'poly']#'sigmoid', 'laplacian'] # 'rbf', 'poly',
     gamma = [0.003, 0.004, 0.005, 0.006, 0.007]
     C = [7, 8, 9, 10, 11, 12, 13]
 
@@ -319,7 +318,6 @@ def modelingSVR(path=DATA_LOCAL + 'accepted_trans_red.csv'):
 
 
 def modelingRandomForest(path=DATA_LOCAL + 'accepted_trans_red.csv'):
-
     print 'Open data'
     data = pd.read_csv(path)
 
@@ -328,7 +326,8 @@ def modelingRandomForest(path=DATA_LOCAL + 'accepted_trans_red.csv'):
 
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=101)
 
-    n_estimators = [50, 100, 150, 200, 500] #['rbf', 'laplacian', 'sigmoid', 'poly']#'sigmoid', 'laplacian'] # 'rbf', 'poly',
+    n_estimators = [50, 100, 150, 200,
+                    500]  # ['rbf', 'laplacian', 'sigmoid', 'poly']#'sigmoid', 'laplacian'] # 'rbf', 'poly',
     max_features = ['auto']
     min_samples_split = [60, 80, 100]
 
@@ -356,7 +355,6 @@ def modelingRandomForest(path=DATA_LOCAL + 'accepted_trans_red.csv'):
                 max_feat.append(j)
                 min_samples_spl.append(k)
 
-
                 results = pd.DataFrame({'n_estimators': n_est, 'max_features': max_feat,
                                         'min_samples_split': min_samples_spl, 'mse': mse, 'r2': r2})
 
@@ -366,7 +364,6 @@ def modelingRandomForest(path=DATA_LOCAL + 'accepted_trans_red.csv'):
 
 
 def modelingKNN(path=DATA_LOCAL + 'accepted_trans_red.csv'):
-
     print 'Open data'
     data = pd.read_csv(path)
 
@@ -377,8 +374,7 @@ def modelingKNN(path=DATA_LOCAL + 'accepted_trans_red.csv'):
 
     print y_test.var()
 
-    n_neig = [200, 250] #['rbf', 'laplacian', 'sigmoid', 'poly']#'sigmoid', 'laplacian'] # 'rbf', 'poly',
-
+    n_neig = [200, 250]  # ['rbf', 'laplacian', 'sigmoid', 'poly']#'sigmoid', 'laplacian'] # 'rbf', 'poly',
 
     mse = []
     r2 = []
@@ -403,10 +399,8 @@ def modelingKNN(path=DATA_LOCAL + 'accepted_trans_red.csv'):
 
 
 def ensambleModel(path=DATA_LOCAL + 'accepted_trans_red.csv'):
-
     print 'Open data'
     data = pd.read_csv(path)
-
 
     y = data['int_rate']
     X = data.drop('int_rate', axis=1)
@@ -424,7 +418,8 @@ def ensambleModel(path=DATA_LOCAL + 'accepted_trans_red.csv'):
         ('lin_svr', lin_svr)
     ])
 
-    rand_for = EstimatorTransformer(RandomForestRegressor(random_state=101, n_estimators=150, max_features='auto', min_samples_split=80))
+    rand_for = EstimatorTransformer(
+        RandomForestRegressor(random_state=101, n_estimators=150, max_features='auto', min_samples_split=80))
 
     knn = EstimatorTransformer(KNeighborsRegressor(n_neighbors=250))
 
@@ -522,3 +517,42 @@ def ensambleModel(path=DATA_LOCAL + 'accepted_trans_red.csv'):
     # linear svr
     # mse = 17.3781059024
     # r2 = 0.0953975761132
+
+
+def ensambleModel2():
+    train_data = pd.read_csv(DATA_LOCAL + 'predictions_model_train.csv')
+    test_data = pd.read_csv(DATA_LOCAL + 'predictions_model_test.csv')
+
+    models = ['svr', 'random_forest', 'knn']
+
+    y_train = train_data['int_rate']
+    y_test = test_data['int_rate']
+
+    X_train = train_data[models]
+    X_test = test_data[models]
+
+    eps = [0.21, 0.22, 0.23, 0.24, 0.25, 0.26, 0.27, 0.28]
+
+    # for i in eps:
+    #     mod = LassoCV(random_state=101, cv=5, eps=i) #best eps = 0.27 -> mse = 14.2407702626
+    #     mod.fit(X_train, y_train)
+    #
+    #     y_pred = mod.predict(X_test)
+    #
+    #     mse = mean_squared_error(y_pred=y_pred, y_true=y_test)
+
+    for i in models:
+        print i
+        print mean_squared_error(y_pred=X_test[i], y_true=y_test)
+
+    mod = RandomForestRegressor(random_state=101, n_estimators=80, min_samples_split=10)
+    mod = GradientBoostingRegressor(n_estimators=500, max_depth=1) # cambiare max depth?
+    mod.fit(X_train, y_train)
+
+    y_pred = mod.predict(X_test)
+
+    mse = mean_squared_error(y_pred=y_pred, y_true=y_test)
+
+    print 'mse total'
+    print mse
+    print '\n'

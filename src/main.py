@@ -54,7 +54,9 @@ from settings import DATA
 
 # da.templateMSEComparison()
 
-rm.ensambleModel()
+# rm.ensambleModel()
+
+rm.ensambleModel2()
 # linear regression
 # 16.9224284813
 # 0.119117474121
