@@ -624,34 +624,34 @@ def templateCoefRegression(c='c00001'):
     return dic_r
 
 
-def templateMSEComparison():
-
-    # best svr: 13,0.005,laplacian
-    # best KNN: 250
-    # best Rand Forest: auto - 80  - 150
-
-    df = pd.DataFrame({'algo': ['Mean Value', 'KNN', 'SVR', 'Random Forest', 'Ensamble Model - Lasso Regression'],
-                      'mse': [19.2108, 15.6561, 14.7649,  14.2407, 14.2400]})
-
-
-    p = Bar(df, 'algo', values='mse', legend=False, tools='hover')
-    p.x_range = FactorRange(factors=df['algo'].tolist())
-    p.xaxis.axis_label = 'Algorithm'
-    p.yaxis.axis_label = 'Mean Square Error'
-
-    p.background_fill_color = LIGHT_GREEN
-    p.border_fill_color = LIGHT_GREEN
-
-    hover = p.select_one(HoverTool)
-    hover.point_policy = "follow_mouse"
-    hover.tooltips = [
-        ("Algorithm: ", "@algo"),
-        ("MSE: ", "@height")
-    ]
-
-    script, div = components(p)
-
-    return script, div
+# def templateMSEComparison():
+# 
+#     # best svr: 13,0.005,laplacian
+#     # best KNN: 250
+#     # best Rand Forest: auto - 80  - 150
+#
+#     df = pd.DataFrame({'algo': ['Mean Value', 'KNN', 'SVR', 'Random Forest', 'Ensamble Model - Lasso Regression'],
+#                       'mse': [19.2108, 15.6561, 14.7649,  14.2407, 14.2400]})
+#
+#
+#     p = Bar(df, 'algo', values='mse', legend=False, tools='hover')
+#     p.x_range = FactorRange(factors=df['algo'].tolist())
+#     p.xaxis.axis_label = 'Algorithm'
+#     p.yaxis.axis_label = 'Mean Square Error'
+#
+#     p.background_fill_color = LIGHT_GREEN
+#     p.border_fill_color = LIGHT_GREEN
+#
+#     hover = p.select_one(HoverTool)
+#     hover.point_policy = "follow_mouse"
+#     hover.tooltips = [
+#         ("Algorithm: ", "@algo"),
+#         ("MSE: ", "@height")
+#     ]
+#
+#     script, div = components(p)
+#
+#     return script, div
 
 # def createSmallDataset():
 #
