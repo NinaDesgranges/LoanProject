@@ -1,6 +1,5 @@
 import data_analysis as da
 import accepted_refused_model as acc_ref_model
-import rate_model as rm
 from settings import DATA
 # da.createNewDataset()
 
@@ -42,28 +41,4 @@ from settings import DATA
 
 # da.templateROC(c='c00001')
 
-# rm.data_cleaning()
-
-# rm.featuresReduction()
-
-# rm.modelingSVR()
-
-# rm.modelingRandomForest()
-
-# rm.modelingKNN()
-
-# da.templateMSEComparison()
-
-# rm.ensambleModel()
-
-rm.ensambleModel2()
-# linear regression
-# 16.9224284813
-# 0.119117474121
-
-# ('kern', Nystroem(kernel='poly')),
-# ('linear_reg', svm.LinearSVR())
-# 17.611769317
-# 0.0832344271216
-
-# da.templateCoefRegression()
+da.templateCoefRegression()

@@ -350,12 +350,6 @@ def outputGridSearchLogisticRegression(path=DATA_LOCAL + 'accepted_refused_ds.cs
 
     print 'Score AUC = ' + str(roc_auc)
 
-    # import plot_roc as pr
-
-    # pr.plot_roc(tpr=tpr,
-    #             fpr=fpr,
-    #             thresholds=threshold)
-
 
 def test(path=DATA_LOCAL + "accepted_refused_ds.csv"):
 
